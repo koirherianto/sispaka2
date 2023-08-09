@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                        Edit Permision
+                    Create Roles
                     </h1>
                 </div>
             </div>
@@ -19,17 +19,19 @@
 
         <div class="card">
 
-            {!! Form::model($permision, ['route' => ['permisions.update', $permision->id], 'method' => 'patch']) !!}
+            {!! Form::open(['route' => 'roles.store']) !!}
 
             <div class="card-body">
+
                 <div class="row">
-                    @include('permisions.fields')
+                    @include('roles.fields')
                 </div>
+
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('permisions.index') }}" class="btn btn-default"> Cancel </a>
+                <a href="{{ route('roles.index') }}" class="btn btn-default"> Cancel </a>
             </div>
 
             {!! Form::close() !!}

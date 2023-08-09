@@ -6,12 +6,12 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-Permision Details
+Role Details
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-default float-right"
-                       href="{{ route('permisions.index') }}">
+                       href="{{ route('roles.index') }}">
                                                     Back
                                             </a>
                 </div>
@@ -23,7 +23,7 @@ Permision Details
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    @include('permisions.show_fields')
+                    @include('roles.show_fields')
                 </div>
             </div>
         </div>

@@ -16,8 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+});
+
+
 
 Auth::routes();
 
@@ -34,5 +40,5 @@ Auth::routes();
 //    ->name('io_generator_builder_rollback');
 // Route::post('generator_builder/generate-from-file','\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile')
 //    ->name('io_generator_builder_generate_from_file');
-Route::resource('permisions', App\Http\Controllers\PermisionController::class);
-Route::resource('roles', App\Http\Controllers\RoleController::class);
+
+Route::resource('permissions', App\Http\Controllers\PermissionController::class);

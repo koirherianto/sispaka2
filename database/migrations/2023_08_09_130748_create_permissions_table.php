@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permisions', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->bigInteger('id', true, true);
             $table->string('name');
             $table->string('guard_name');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('permisions');
+        Schema::drop('permissions');
     }
 };

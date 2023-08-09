@@ -1,6 +1,6 @@
 <div class="card-body p-0">
     <div class="table-responsive">
-        <table class="table" id="permisions-table">
+        <table class="table" id="roles-table">
             <thead>
             <tr>
                 <th>Name</th>
@@ -9,18 +9,18 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($permisions as $permision)
+            @foreach($roles as $role)
                 <tr>
-                    <td>{{ $permision->name }}</td>
-                    <td>{{ $permision->guard_name }}</td>
+                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->guard_name }}</td>
                     <td  style="width: 120px">
-                        {!! Form::open(['route' => ['permisions.destroy', $permision->id], 'method' => 'delete']) !!}
+                        {!! Form::open(['route' => ['roles.destroy', $role->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
-                            <a href="{{ route('permisions.show', [$permision->id]) }}"
+                            <a href="{{ route('roles.show', [$role->id]) }}"
                                class='btn btn-default btn-xs'>
                                 <i class="far fa-eye"></i>
                             </a>
-                            <a href="{{ route('permisions.edit', [$permision->id]) }}"
+                            <a href="{{ route('roles.edit', [$role->id]) }}"
                                class='btn btn-default btn-xs'>
                                 <i class="far fa-edit"></i>
                             </a>
@@ -36,7 +36,7 @@
 
     <div class="card-footer clearfix">
         <div class="float-right">
-            @include('adminlte-templates::common.paginate', ['records' => $permisions])
+            @include('adminlte-templates::common.paginate', ['records' => $roles])
         </div>
     </div>
 </div>

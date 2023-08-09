@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Permisions</h1>
+                    <h1>Permissions</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('permisions.create') }}">
+                       href="{{ route('permissions.create') }}">
                         Add New
                     </a>
                 </div>
@@ -24,7 +24,7 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            @include('permisions.table')
+            @include('permissions.table')
         </div>
     </div>
 

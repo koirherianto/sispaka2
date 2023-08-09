@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\Permision;
+use App\Models\Permission;
 use App\Repositories\BaseRepository;
 
-class PermisionRepository extends BaseRepository
+class PermissionRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'name',
@@ -19,6 +19,6 @@ class PermisionRepository extends BaseRepository
 
     public function model(): string
     {
-        return Permision::class;
+        return Permission::class;
     }
 }

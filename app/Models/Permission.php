@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Permision extends Model
+class Permission extends Model
 {
-    public $table = 'permisions';
+    public $table = 'permissions';
 
     public $fillable = [
         'name',
