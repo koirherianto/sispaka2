@@ -34,3 +34,5 @@ Auth::routes();
 //    ->name('io_generator_builder_rollback');
 // Route::post('generator_builder/generate-from-file','\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile')
 //    ->name('io_generator_builder_generate_from_file');
+Route::resource('permisions', App\Http\Controllers\PermisionController::class);
+Route::resource('roles', App\Http\Controllers\RoleController::class);
