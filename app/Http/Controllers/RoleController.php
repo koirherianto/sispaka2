@@ -8,6 +8,8 @@ use App\Http\Controllers\AppBaseController;
 use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use Flash;
+use DB;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends AppBaseController
@@ -31,17 +33,17 @@ class RoleController extends AppBaseController
     {
         $sPermissions=Permission::orderBy('name')->get();
         $permissions=[];
-        return view('roles.create');
+        return view('roles.create',compact('sPermissions','permissions'));
     }
 
     public function store(CreateRoleRequest $request)
     {
         $input = $request->all();
-
+        
         try{
             DB::beginTransaction();
 
-            $role = Role::create(['name'=>$input['name'],'guard_name'=>$input['guard_name'],'desc' => $input['desc']]);
+            $role = Role::create(['name'=>$input['name'],'guard_name'=>$input['guard_name']]);
 
             if($request->has('permission_id')) {
                 $permissions=Permission::whereIn('id',$input['permission_id'])->get();
@@ -60,52 +62,53 @@ class RoleController extends AppBaseController
 
     public function show($id)
     {
-        $roles = $this->rolesRepository->find($id);
+        $role = $this->roleRepository->find($id);
 
-        if (empty($roles)) {
-            Flash::error('Roles not found');
-
+        if (empty($role)) {
+            Flash::error('Role not found');
             return redirect(route('roles.index'));
         }
 
-        return view('roles.show')->with('roles', $roles);
+        $permissions = $role->permissions ? $role->permissions->pluck('name','id') : [];
+
+        return view('roles.show', compact('role', 'permissions'));
     }
+
 
     public function edit($id)
     {
-        $roles = $this->rolesRepository->find($id);
+        $role = $this->roleRepository->find($id);
 
-        if (empty($roles)) {
-            Flash::error('Roles not found');
+        if (empty($role)) {
+            Flash::error('Role not found');
 
             return redirect(route('roles.index'));
         }
 
         $sPermissions=Permission::orderBy('name')->get();
-        $permissions=$roles->permissions->pluck('id')->toArray();
+        $permissions=$role->permissions->pluck('id')->toArray();
 
-        return view('roles.edit',compact('sPermissions', 'permissions','roles'));
+        return view('roles.edit',compact('sPermissions', 'permissions'))->with('role', $role);
     }
 
     public function update($id, UpdateRoleRequest $request)
     {
-        $roles = $this->rolesRepository->find($id);
+        $role = $this->roleRepository->find($id);
 
-        if (empty($roles)) {
-            Flash::error('Roles not found');
-            return redirect(route('roles.index'));
+        if (empty($role)) {
+            Flash::error('Role not found');
+            return redirect(route('role.index'));
         }
 
         $input=$request->all();
 
         try{
             DB::beginTransaction();
-            $roles->update(['name'=>$input['name'],'guard_name'=>$input['guard_name'],
-                'desc'=>$input['desc']]);
+            $role->update(['name'=>$input['name'],'guard_name'=>$input['guard_name']]);
 
             if($request->has('permission_id')){
                 $permissions=Permission::whereIn('id',$input['permission_id'])->get();
-                $roles->syncPermissions($permissions);
+                $role->syncPermissions($permissions);
             }
 
             DB::commit();

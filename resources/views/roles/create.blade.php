@@ -1,39 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="content-body">
-        <section id="horizontal-form-layouts">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card overflow-hidden">
-                        <div class="card-content">
-                            <div class="media align-items-stretch">
-                                <div class="bg-amber p-2 media-middle">
-                                    <i class="fa fa-pencil-square font-large-2 text-white"></i>
-                                </div>
-                                <div class="media-body p-1">
-                                    <span class="amber font-medium-5">Input Roles</span><br>
-                                    <span style="margin-top: -5px">Membuat Roles Baru</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    @include('adminlte-templates::common.errors')
-                    <div class="card">
-                        <div class="card-content collpase show">
-                            <div class="card-body">
-                                {!! Form::open(['route' => 'roles.store'], ['class' => 'form']) !!}
-                                <div class="form-body">
-                                    @include('roles.fields')
-                                </div>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1>
+                    Create Roles
+                    </h1>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
+    <div class="content px-3">
+
+        @include('adminlte-templates::common.errors')
+
+        <div class="card">
+
+            {!! Form::open(['route' => 'roles.store']) !!}
+
+            <div class="card-body">
+
+                <div class="row">
+                    @include('roles.fields')
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('roles.index') }}" class="btn btn-default"> Cancel </a>
+            </div>
+
+            {!! Form::close() !!}
+
+        </div>
     </div>
 @endsection

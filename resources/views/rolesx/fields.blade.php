@@ -1,13 +1,26 @@
 <!-- Name Field -->
-<div class="form-group col-sm-6">
+<div class="form-group">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
+    <div class="position-relative">
+        {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+
+<!-- Guard Name Field -->
+<div class="form-group">
+    {!! Form::label('guard_name', 'Guard Name:') !!}
+    <div class="position-relative">
+        {!! Form::text('guard_name', null, ['class' => 'form-control']) !!}
+    </div>
 </div>
 
 <!-- Guard Name Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('guard_name', 'Guard Name:') !!}
-    {!! Form::text('guard_name', null, ['class' => 'form-control', 'required']) !!}
+<div class="form-group">
+    {!! Form::label('guard_name', 'Desc:') !!}
+    <div class="position-relative">
+        {!! Form::text('desc', null, ['class' => 'form-control']) !!}
+    </div>
 </div>
 
 <div class="form-group row">
@@ -25,3 +38,11 @@
         </div>
     </div>
 </div>
+
+<!-- Sudah di modifikasi -->
+<!-- Submit Field -->
+<div class="form-actions center">
+    <a href="{!! route('roles.index') !!}" class="btn btn-danger"> <i class="fa fa-close"></i> Batal</a>
+    {!! Form::submit('Simpan', ['class' => 'btn btn-green mr-1']) !!}
+</div>
+
