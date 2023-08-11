@@ -42,3 +42,4 @@ Auth::routes();
 //    ->name('io_generator_builder_generate_from_file');
 
 Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+Route::resource('users', App\Http\Controllers\UserController::class);

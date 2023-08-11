@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigInteger,true,true",
+        "dbType": "bigInteger",
         "htmlType": "number",
         "validations": "",
         "searchable": false,
