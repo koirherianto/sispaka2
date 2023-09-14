@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('roles', App\Http\Controllers\RoleController::class);
+    Route::resource('projects', App\Http\Controllers\ProjectController::class);
+    Route::resource('methods', App\Http\Controllers\MethodController::class);
 });
 
 
@@ -41,4 +43,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::resource('projects', App\Http\Controllers\ProjectController::class);

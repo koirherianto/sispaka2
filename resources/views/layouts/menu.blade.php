@@ -6,12 +6,12 @@
     </a>
 </li>
 
-<li class="nav-item has-treeview menu-open">
+<li class="nav-item has-treeview">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-users"></i>
-        <p>People<i class="fas fa-angle-left right"></i></p>
+        <p>Admin<i class="fas fa-angle-left right"></i></p>
     </a>
-    <ul class="nav nav-treeview">
+    <ul class="nav nav-treeview ml-3"> <!-- Tambahkan kelas ml-3 untuk submenu -->
         <li class="nav-item">
             <a href="{{ route('permissions.index') }}" class="nav-link {{ Request::is('permissions*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-lock"></i>
@@ -24,22 +24,33 @@
                 <p>Roles</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('methods.index') }}" class="nav-link {{ Request::is('methods*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>Methods</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('users.index') }}" class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user"></i>
+                <p>Users</p>
+            </a>
+        </li>
     </ul>
 </li>
 
-
-
-<li class="nav-item">
-    <a href="{{ route('users.index') }}" class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Users</p>
+<li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-users"></i>
+        <p>Expert System<i class="fas fa-angle-left right"></i></p>
     </a>
+    <ul class="nav nav-treeview ml-3"> 
+        <li class="nav-item">
+            <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-project-diagram"></i>
+                <p>Projects</p>
+            </a>
+        </li>
+    </ul>
 </li>
 
-
-<li class="nav-item">
-    <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Projects</p>
-    </a>
-</li>

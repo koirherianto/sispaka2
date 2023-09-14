@@ -38,4 +38,13 @@ class User extends Authenticatable
         'deleted_at' => 'nullable|nullable'
     ];
 
+    public function projects() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'user_has_projects', 'user_id', 'project_id');
+    }
+
+    public function sessionProjects()
+    {
+        return $this->belongsTo(Project::class,'session_project');
+    }
 }
