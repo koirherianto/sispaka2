@@ -39,10 +39,17 @@
     </ul>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-project-diagram"></i>
+        <p>Projects</p>
+    </a>
+</li>
+
 <li class="nav-item has-treeview">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-users"></i>
-        <p>Expert System<i class="fas fa-angle-left right"></i></p>
+        <p>Bacward Chaining<i class="fas fa-angle-left right"></i></p>
     </a>
     <ul class="nav nav-treeview ml-3"> 
         <li class="nav-item">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('roles', App\Http\Controllers\RoleController::class);
-    Route::resource('projects', App\Http\Controllers\ProjectController::class);
+    Route::post('/changeProject/{id}', [ProjectController::class, 'changeProject'])->name('changeProject');
+    Route::resource('projects', ProjectController::class);
     Route::resource('methods', App\Http\Controllers\MethodController::class);
 });
 
