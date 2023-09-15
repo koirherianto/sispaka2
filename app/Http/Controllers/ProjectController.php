@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Method;
+use App\Models\BackwardChaining;
 use DB;
 use Flash;
 use Auth;
@@ -77,6 +78,9 @@ class ProjectController extends AppBaseController
             $project = $this->projectRepository->create($input);
             $project->users()->sync($input['user_id']);
             $project->methods()->sync($input['method_id']);
+            BackwardChaining::create([
+                'project_id' => $project->id
+            ]);
         },3);
 
         Flash::success('Project saved successfully.');
@@ -169,10 +173,11 @@ class ProjectController extends AppBaseController
             //unsingkron many to many
             $project->users()->sync([]);
             $project->methods()->sync([]);
-            $project->facts()->question()->delete();
-            $project->result()->question()->delete();
-            $project->facts()->delete();
-            $project->result()->delete();
+            $project->backwardChainings()->delete();
+            // $project->facts()->question()->delete();
+            // $project->result()->question()->delete();
+            // $project->facts()->delete();
+            // $project->result()->delete();
             Auth::user()->session_project = null;
             $this->projectRepository->delete($id);
         },3);
