@@ -26,3 +26,6 @@ Route::resource('projects', App\Http\Controllers\API\ProjectAPIController::class
 
 Route::resource('methods', App\Http\Controllers\API\MethodAPIController::class)
     ->except(['create', 'edit']);
+
+Route::resource('backward-chainings', App\Http\Controllers\API\BackwardChainingAPIController::class)
+    ->except(['create', 'edit']);

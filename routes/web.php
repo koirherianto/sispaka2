@@ -45,3 +45,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+Route::resource('backwardChainings', App\Http\Controllers\BC\BackwardChainingController::class);
