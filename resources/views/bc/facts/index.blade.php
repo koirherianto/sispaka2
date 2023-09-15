@@ -5,11 +5,17 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Bc Facts</h1>
+                    <h1>
+                        Backward Chaining Facts |
+                        @if (Auth::user()->hasRole('super-admin'))
+                            Admin View |
+                        @else
+                            {{ Auth::user()->sessionProjects->title }}
+                        @endif
+                    </h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('bcFacts.create') }}">
+                    <a class="btn btn-primary float-right" href="{{ route('bcFacts.create') }}">
                         Add New
                     </a>
                 </div>
@@ -27,5 +33,4 @@
             @include('bc.facts.table')
         </div>
     </div>
-
 @endsection

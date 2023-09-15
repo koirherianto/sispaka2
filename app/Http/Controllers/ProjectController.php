@@ -73,6 +73,7 @@ class ProjectController extends AppBaseController
         if (!Auth::user()->hasRole('super-admin')) {
             $input['user_id'] = auth()->user()->id;
         }
+        
 
         DB::transaction(function () use($input) {
             $project = $this->projectRepository->create($input);

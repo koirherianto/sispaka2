@@ -6,7 +6,11 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                        Edit Bc Fact
+                        Backward Chaining Facts | Edit |
+                        @if (Auth::user()->hasRole('super-admin'))
+                            Admin View |
+                        @endif
+                        {{ Auth::user()->sessionProjects->title }}
                     </h1>
                 </div>
             </div>

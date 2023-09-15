@@ -1,8 +1,15 @@
-<!-- Backward Chaining Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('backward_chaining_id', 'Backward Chaining Id:') !!}
-    {!! Form::number('backward_chaining_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
+<input type="hidden" value="-" name="backward_chaining_id">
+
+@role('super-admin')
+    <div class="form-group col-sm-6">
+        {!! Form::label('project_id', 'Project:') !!}
+        {!! Form::select('project_id', $projects->pluck('title', 'id'), null, ['class' => 'form-control', 'required']) !!}
+    </div>
+@endrole
+
+@role(['individu','institution'])
+    <input type="hidden" value="-" name="project_id">
+@endrole
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">

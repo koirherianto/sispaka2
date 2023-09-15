@@ -3,7 +3,10 @@
         <table class="table" id="bc-facts-table">
             <thead>
             <tr>
-                <th>Backward Chaining Id</th>
+                @if (Auth::user()->hasRole('super-admin'))
+                <th>Backward Chaining </th>
+                <th>User Maker </th>
+                @endif
                 <th>Name</th>
                 <th>Code Name</th>
                 <th>Value Fact</th>
@@ -13,7 +16,10 @@
             <tbody>
             @foreach($bcFacts as $bcFact)
                 <tr>
-                    <td>{{ $bcFact->backward_chaining_id }}</td>
+                    @if (Auth::user()->hasRole('super-admin'))
+                    <td>{{  $bcFact->backwardChaining->project->title }}</td>
+                    <td>{{  $bcFact->usersMaker }}</td>
+                    @endif
                     <td>{{ $bcFact->name }}</td>
                     <td>{{ $bcFact->code_name }}</td>
                     <td>{{ $bcFact->value_fact }}</td>

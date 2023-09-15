@@ -32,9 +32,9 @@ class Project extends Model
         'deleted_at' => 'nullable'
     ];
 
-    public function backwardChainings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function backwardChainings(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasMany(\App\Models\BackwardChaining::class, 'project_id');
+        return $this->hasOne(\App\Models\BackwardChaining::class, 'project_id');
     }
 
     public function contributors(): \Illuminate\Database\Eloquent\Relations\HasMany

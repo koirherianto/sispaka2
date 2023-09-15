@@ -26,17 +26,21 @@ class BcFactController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $bcFacts = $this->bcFactRepository->paginate(10);
+        if (Auth::user()->hasRole('super-admin')) {
+            $bcFacts = $this->bcFactRepository->paginate(10);
+            foreach ($bcFacts->items() as $bcFact) {
+                $usersMaker = $bcFact->backwardChaining->project->users;
+                $usersMaker = $usersMaker->implode('name', ', ');
+                $bcFact->usersMaker = $usersMaker;
+            }
+        }
 
-        return view('bc.facts.index')->with('bcFacts', $bcFacts);
+        // return $bcFacts->items();
 
-
-        if (!Auth::user()->hasRole('super-admin')) {
+        if (Auth::user()->hasRole(['individu','institution'])) {
             $sessionProject = Auth::user()->session_project;
             $bcFacts = Project::find($sessionProject)->backwardChainings->facts()->paginate(10);
-        }else{
-            $bcFacts = $this->factRepository->paginate(10);
-        }
+        }    
 
         return view('bc.facts.index')->with('bcFacts', $bcFacts);
     }
@@ -57,9 +61,14 @@ class BcFactController extends AppBaseController
     public function store(CreateBcFactRequest $request)
     {
         $input = $request->all();
+        
+        if (Auth::user()->hasRole('super-admin')) {
+            $input['backward_chaining_id'] = Project::find($input['project_id'])->backwardChainings->id;
+        }
 
-        if (!Auth::user()->hasRole('super-admin')) {
-            $input['project_id'] = Auth::user()->session_project;
+        if (Auth::user()->hasRole(['individu','institution'])) {
+            $sessionProject = Auth::user()->session_project;
+            $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
         }
 
         $bcFact = $this->bcFactRepository->create($input);
