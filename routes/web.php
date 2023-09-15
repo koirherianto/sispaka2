@@ -27,9 +27,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/changeProject/{id}', [ProjectController::class, 'changeProject'])->name('changeProject');
     Route::resource('projects', ProjectController::class);
     Route::resource('methods', App\Http\Controllers\MethodController::class);
-
+    
     Route::group(['middleware' => ['ProjectSessionExist']], function () {
         Route::resource('backwardChainings', App\Http\Controllers\BC\BackwardChainingController::class);
+        Route::resource('bcFacts', App\Http\Controllers\BC\BcFactController::class);
     });
 
 });
