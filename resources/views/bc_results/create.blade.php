@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                        Edit Fact
+                    Create Bc Results
                     </h1>
                 </div>
             </div>
@@ -19,17 +19,19 @@
 
         <div class="card">
 
-            {!! Form::model($fact, ['route' => ['facts.update', $fact->id], 'method' => 'patch']) !!}
+            {!! Form::open(['route' => 'bcResults.store']) !!}
 
             <div class="card-body">
+
                 <div class="row">
-                    @include('facts.fields')
+                    @include('bc_results.fields')
                 </div>
+
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('facts.index') }}" class="btn btn-default"> Cancel </a>
+                <a href="{{ route('bcResults.index') }}" class="btn btn-default"> Cancel </a>
             </div>
 
             {!! Form::close() !!}

@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => ['ProjectSessionExist']], function () {
         Route::resource('backwardChainings', App\Http\Controllers\BC\BackwardChainingController::class);
         Route::resource('bcFacts', App\Http\Controllers\BC\BcFactController::class);
+        Route::resource('bcResults', App\Http\Controllers\BcResultController::class);
     });
 
 });

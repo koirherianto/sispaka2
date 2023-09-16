@@ -32,3 +32,6 @@ Route::resource('backward-chainings', App\Http\Controllers\API\BackwardChainingA
 
 Route::resource('bc-facts', App\Http\Controllers\API\BcFactAPIController::class)
     ->except(['create', 'edit']);
+
+Route::resource('bc-results', App\Http\Controllers\API\BcResultAPIController::class)
+    ->except(['create', 'edit']);

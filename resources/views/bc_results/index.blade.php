@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Facts</h1>
-                    <h6>{{ Auth::user()->sessionProjects->title }}</h6>
+                    <h1>Bc Results</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right" href="{{ route('facts.create') }}">
+                    <a class="btn btn-primary float-right"
+                       href="{{ route('bcResults.create') }}">
                         Add New
                     </a>
                 </div>
@@ -24,7 +24,8 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            @include('facts.table')
+            @include('bc_results.table')
         </div>
     </div>
+
 @endsection

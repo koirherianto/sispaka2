@@ -6,12 +6,12 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-Fact Details
+Bc Result Details
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-default float-right"
-                       href="{{ route('facts.index') }}">
+                       href="{{ route('bcResults.index') }}">
                                                     Back
                                             </a>
                 </div>
@@ -23,7 +23,7 @@ Fact Details
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    @include('facts.show_fields')
+                    @include('bc_results.show_fields')
                 </div>
             </div>
         </div>
