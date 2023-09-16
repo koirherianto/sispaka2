@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                    Create Bc Results
+                        Edit Bc Result
                     </h1>
                 </div>
             </div>
@@ -19,14 +19,12 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'bcResults.store']) !!}
+            {!! Form::model($bcResult, ['route' => ['bcResults.update', $bcResult->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
-
                 <div class="row">
-                    @include('bc_results.fields')
+                    @include('bc.results.fields')
                 </div>
-
             </div>
 
             <div class="card-footer">

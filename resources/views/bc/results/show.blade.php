@@ -23,7 +23,7 @@ Bc Result Details
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    @include('bc_results.show_fields')
+                    @include('bc.results.show_fields')
                 </div>
             </div>
         </div>

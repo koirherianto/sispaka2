@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BC;
 
 use App\Http\Requests\CreateBcResultRequest;
 use App\Http\Requests\UpdateBcResultRequest;
@@ -26,7 +26,7 @@ class BcResultController extends AppBaseController
     {
         $bcResults = $this->bcResultRepository->paginate(10);
 
-        return view('bc_results.index')
+        return view('bc.results.index')
             ->with('bcResults', $bcResults);
     }
 
@@ -35,7 +35,7 @@ class BcResultController extends AppBaseController
      */
     public function create()
     {
-        return view('bc_results.create');
+        return view('bc.results.create');
     }
 
     /**
@@ -65,7 +65,7 @@ class BcResultController extends AppBaseController
             return redirect(route('bcResults.index'));
         }
 
-        return view('bc_results.show')->with('bcResult', $bcResult);
+        return view('bc.results.show')->with('bcResult', $bcResult);
     }
 
     /**
@@ -81,7 +81,7 @@ class BcResultController extends AppBaseController
             return redirect(route('bcResults.index'));
         }
 
-        return view('bc_results.edit')->with('bcResult', $bcResult);
+        return view('bc.results.edit')->with('bcResult', $bcResult);
     }
 
     /**
