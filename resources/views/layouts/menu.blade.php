@@ -72,3 +72,10 @@
         </li>
     </ul>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('bcQuestions.index') }}" class="nav-link {{ Request::is('bcQuestions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Bc Questions</p>
+    </a>
+</li>

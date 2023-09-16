@@ -35,3 +35,6 @@ Route::resource('bc-facts', App\Http\Controllers\API\BcFactAPIController::class)
 
 Route::resource('bc-results', App\Http\Controllers\API\BcResultAPIController::class)
     ->except(['create', 'edit']);
+
+Route::resource('bc-questions', App\Http\Controllers\API\BcQuestionAPIController::class)
+    ->except(['create', 'edit']);
