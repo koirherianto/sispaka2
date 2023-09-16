@@ -6,12 +6,13 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Backward Chaining Facts 
+                        Backward Chaining Facts |
                         @if (Auth::user()->hasRole('super-admin'))
                             Admin View |
+                        @else
+                            {{ Auth::user()->sessionProjects->title }}
                         @endif
-                        {{ Auth::user()->sessionProjects->title }}
-                        | Detail View
+                        | Detail
                     </h1>
                 </div>
                 <div class="col-sm-6">

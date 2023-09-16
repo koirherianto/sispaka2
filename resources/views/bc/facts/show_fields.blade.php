@@ -4,6 +4,11 @@
     <p>{{ $bcFact->backwardChaining->project->title }}</p>
 </div>
 
+<div class="col-sm-12">
+    {!! Form::label('user_maker', 'User Maker:') !!}
+    <p>{{ $bcFact->usersMaker }}</p>
+</div>
+
 <!-- Name Field -->
 <div class="col-sm-12">
     {!! Form::label('name', 'Name:') !!}

@@ -2,44 +2,46 @@
     <div class="table-responsive">
         <table class="table" id="bc-facts-table">
             <thead>
-            <tr>
-                @if (Auth::user()->hasRole('super-admin'))
-                <th>Backward Chaining </th>
-                <th>User Maker </th>
-                @endif
-                <th>Name</th>
-                <th>Code Name</th>
-                <th>Value Fact</th>
-                <th colspan="3">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($bcFacts as $bcFact)
                 <tr>
                     @if (Auth::user()->hasRole('super-admin'))
-                    <td>{{  $bcFact->backwardChaining->project->title }}</td>
-                    <td>{{  $bcFact->usersMaker }}</td>
+                        <th>Backward Chaining </th>
+                        <th>User Maker </th>
                     @endif
-                    <td>{{ $bcFact->name }}</td>
-                    <td>{{ $bcFact->code_name }}</td>
-                    <td>{{ $bcFact->value_fact }}</td>
-                    <td  style="width: 120px">
-                        {!! Form::open(['route' => ['bcFacts.destroy', $bcFact->id], 'method' => 'delete']) !!}
-                        <div class='btn-group'>
-                            <a href="{{ route('bcFacts.show', [$bcFact->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-eye"></i>
-                            </a>
-                            <a href="{{ route('bcFacts.edit', [$bcFact->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-edit"></i>
-                            </a>
-                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        </div>
-                        {!! Form::close() !!}
-                    </td>
+                    <th>Name</th>
+                    <th>Code Name</th>
+                    <th>Value Fact</th>
+                    <th colspan="3">Action</th>
                 </tr>
-            @endforeach
+            </thead>
+            <tbody>
+                @foreach ($bcFacts as $bcFact)
+                    <tr>
+                        @if (Auth::user()->hasRole('super-admin'))
+                            <td>{{ $bcFact->backwardChaining->project->title }}</td>
+                            <td>{{ $bcFact->usersMaker }}</td>
+                        @endif
+                        <td>{{ $bcFact->name }}</td>
+                        <td>{{ $bcFact->code_name }}</td>
+                        <td>{{ $bcFact->value_fact }}</td>
+                        <td style="width: 120px">
+                            <div class='btn-group'>
+                                <a href="{{ route('bcFacts.show', [$bcFact->id]) }}" class="btn btn-success btn-sm">
+                                    Show
+                                </a>
+                                <a href="{{ route('bcFacts.edit', [$bcFact->id]) }}" class="btn btn-warning btn-sm ml-1">
+                                    Edit
+                                </a>
+                                {!! Form::open(['route' => ['bcFacts.destroy', $bcFact->id], 'method' => 'delete']) !!}
+                                {!! Form::button('Delete', [
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-danger btn-sm ml-1',
+                                        'onclick' => "return confirm('Are you sure?')",
+                                    ]) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

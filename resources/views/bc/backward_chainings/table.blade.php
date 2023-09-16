@@ -15,12 +15,12 @@
                         {!! Form::open(['route' => ['backwardChainings.destroy', $backwardChaining->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
                             <a href="{{ route('backwardChainings.show', [$backwardChaining->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-eye"></i>
+                               class="btn btn-success btn-sm">
+                                        Show
                             </a>
                             <a href="{{ route('backwardChainings.edit', [$backwardChaining->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-edit"></i>
+                               class="btn btn-warning btn-sm ml-1">
+                                        Edit
                             </a>
                             {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                         </div>

@@ -35,11 +35,9 @@ class BcFactController extends AppBaseController
             }
         }
 
-        // return $bcFacts->items();
-
         if (Auth::user()->hasRole(['individu','institution'])) {
             $sessionProject = Auth::user()->session_project;
-            $bcFacts = Project::find($sessionProject)->backwardChainings->facts()->paginate(10);
+            $bcFacts = Project::find($sessionProject)->backwardChainings->bcFacts()->paginate(10);
         }    
 
         return view('bc.facts.index')->with('bcFacts', $bcFacts);
@@ -89,6 +87,10 @@ class BcFactController extends AppBaseController
             return redirect(route('bcFacts.index'));
         }
 
+        $usersMaker = $bcFact->backwardChaining->project->users;
+        $usersMaker = $usersMaker->implode('name', ', ');
+        $bcFact->usersMaker = $usersMaker;
+
         return view('bc.facts.show')->with('bcFact', $bcFact);
     }
 
@@ -123,10 +125,7 @@ class BcFactController extends AppBaseController
         }
 
         $input = $request->all();
-
-        if (!Auth::user()->hasRole('super-admin')) {
-            $input['project_id'] = Auth::user()->session_project;
-        }
+        unset($input['backward_chaining_id']);
 
         $bcFact = $this->bcFactRepository->update($input, $id);
 
@@ -148,7 +147,7 @@ class BcFactController extends AppBaseController
             return redirect(route('bcFacts.index'));
         }
 
-        // $fact->questions->delete();
+        // $bcFact->bc_questions->delete();
         $this->bcFactRepository->delete($id);
 
         Flash::success('Bc Fact deleted successfully.');
