@@ -64,17 +64,11 @@
                 <p>Bc Facts</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('bcResults.index') }}" class="nav-link {{ Request::is('bcResults*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Bc Results</p>
+            </a>
+        </li>
     </ul>
-</li>
-
-
-
-
-
-
-<li class="nav-item">
-    <a href="{{ route('bcResults.index') }}" class="nav-link {{ Request::is('bcResults*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Bc Results</p>
-    </a>
 </li>

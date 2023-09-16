@@ -6,14 +6,18 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-Bc Result Details
+                        Backward Chaining Detail Result |
+                        @if (Auth::user()->hasRole('super-admin'))
+                            Admin View 
+                        @else
+                            {{ Auth::user()->sessionProjects->title }}
+                        @endif
                     </h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
-                       href="{{ route('bcResults.index') }}">
-                                                    Back
-                                            </a>
+                    <a class="btn btn-default float-right" href="{{ route('bcResults.index') }}">
+                        Back
+                    </a>
                 </div>
             </div>
         </div>

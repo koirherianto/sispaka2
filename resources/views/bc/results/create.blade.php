@@ -6,7 +6,12 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                    Create Bc Results
+                        Backward Chaining Create Results |
+                        @if (Auth::user()->hasRole('super-admin'))
+                            Admin View 
+                        @else
+                            {{ Auth::user()->sessionProjects->title }}
+                        @endif
                     </h1>
                 </div>
             </div>

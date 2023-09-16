@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateBcResultRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\BcResultRepository;
 use Illuminate\Http\Request;
+use App\Models\Project;
 use Flash;
+use Auth;
 
 class BcResultController extends AppBaseController
 {
@@ -24,10 +26,21 @@ class BcResultController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $bcResults = $this->bcResultRepository->paginate(10);
-
-        return view('bc.results.index')
-            ->with('bcResults', $bcResults);
+        if (Auth::user()->hasRole('super-admin')) {
+            $bcResults = $this->bcResultRepository->paginate(10);
+            foreach ($bcResults->items() as $bcResult) {
+                $usersMaker = $bcResult->backwardChaining->project->users;
+                $usersMaker = $usersMaker->implode('name', ', ');
+                $bcResult->usersMaker = $usersMaker;
+            }
+        }
+            
+        if (Auth::user()->hasRole(['individu','institution'])) {
+            $sessionProject = Auth::user()->session_project;
+            $bcResults = Project::find($sessionProject)->backwardChainings->bcResults()->paginate(10);
+        }    
+            
+        return view('bc.results.index')->with('bcResults', $bcResults);
     }
 
     /**
@@ -35,7 +48,9 @@ class BcResultController extends AppBaseController
      */
     public function create()
     {
-        return view('bc.results.create');
+        $isEditPage = false;
+        $projects = Project::all();
+        return view('bc.results.create', compact('projects','isEditPage'));
     }
 
     /**
@@ -45,10 +60,18 @@ class BcResultController extends AppBaseController
     {
         $input = $request->all();
 
+        if (Auth::user()->hasRole('super-admin')) {
+            $input['backward_chaining_id'] = Project::find($input['project_id'])->backwardChainings->id;
+        }
+
+        if (Auth::user()->hasRole(['individu','institution'])) {
+            $sessionProject = Auth::user()->session_project;
+            $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
+        }
+
         $bcResult = $this->bcResultRepository->create($input);
 
         Flash::success('Bc Result saved successfully.');
-
         return redirect(route('bcResults.index'));
     }
 
@@ -61,9 +84,12 @@ class BcResultController extends AppBaseController
 
         if (empty($bcResult)) {
             Flash::error('Bc Result not found');
-
             return redirect(route('bcResults.index'));
         }
+
+        $usersMaker = $bcResult->backwardChaining->project->users;
+        $usersMaker = $usersMaker->implode('name', ', ');
+        $bcResult->usersMaker = $usersMaker;
 
         return view('bc.results.show')->with('bcResult', $bcResult);
     }
@@ -77,11 +103,13 @@ class BcResultController extends AppBaseController
 
         if (empty($bcResult)) {
             Flash::error('Bc Result not found');
-
             return redirect(route('bcResults.index'));
         }
 
-        return view('bc.results.edit')->with('bcResult', $bcResult);
+        $isEditPage = true;
+        $projects = Project::all();
+
+        return view('bc.results.edit', compact('bcResult','projects','isEditPage'));
     }
 
     /**
@@ -93,14 +121,15 @@ class BcResultController extends AppBaseController
 
         if (empty($bcResult)) {
             Flash::error('Bc Result not found');
-
             return redirect(route('bcResults.index'));
         }
 
-        $bcResult = $this->bcResultRepository->update($request->all(), $id);
+        $input = $request->all();
+        unset($input['backward_chaining_id']);
+
+        $bcResult = $this->bcResultRepository->update($input, $id);
 
         Flash::success('Bc Result updated successfully.');
-
         return redirect(route('bcResults.index'));
     }
 
@@ -115,14 +144,13 @@ class BcResultController extends AppBaseController
 
         if (empty($bcResult)) {
             Flash::error('Bc Result not found');
-
             return redirect(route('bcResults.index'));
         }
 
+        // $bcResult->bcQuestions->delete();
         $this->bcResultRepository->delete($id);
 
         Flash::success('Bc Result deleted successfully.');
-
         return redirect(route('bcResults.index'));
     }
 }
