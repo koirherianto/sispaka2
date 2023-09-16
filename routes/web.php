@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('backwardChainings', App\Http\Controllers\BC\BackwardChainingController::class);
         Route::resource('bcFacts', App\Http\Controllers\BC\BcFactController::class);
         Route::resource('bcResults', App\Http\Controllers\BC\BcResultController::class);
-        Route::resource('bcQuestions', App\Http\Controllers\BcQuestionController::class);
+        Route::resource('bcQuestions', App\Http\Controllers\BC\BcQuestionController::class);
     });
 
 });

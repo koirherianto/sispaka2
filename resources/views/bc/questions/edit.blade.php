@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                    Create Bc Questions
+                        Edit Bc Question
                     </h1>
                 </div>
             </div>
@@ -19,14 +19,12 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'bcQuestions.store']) !!}
+            {!! Form::model($bcQuestion, ['route' => ['bcQuestions.update', $bcQuestion->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
-
                 <div class="row">
-                    @include('bc_questions.fields')
+                    @include('bc.questions.fields')
                 </div>
-
             </div>
 
             <div class="card-footer">

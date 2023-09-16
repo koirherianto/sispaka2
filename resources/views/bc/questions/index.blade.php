@@ -24,7 +24,7 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            @include('bc_questions.table')
+            @include('bc.questions.table')
         </div>
     </div>
 

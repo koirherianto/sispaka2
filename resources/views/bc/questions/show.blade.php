@@ -23,7 +23,7 @@ Bc Question Details
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    @include('bc_questions.show_fields')
+                    @include('bc.questions.show_fields')
                 </div>
             </div>
         </div>

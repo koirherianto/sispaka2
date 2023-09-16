@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BC;
 
 use App\Http\Requests\CreateBcQuestionRequest;
 use App\Http\Requests\UpdateBcQuestionRequest;
@@ -26,8 +26,7 @@ class BcQuestionController extends AppBaseController
     {
         $bcQuestions = $this->bcQuestionRepository->paginate(10);
 
-        return view('bc_questions.index')
-            ->with('bcQuestions', $bcQuestions);
+        return view('bc.questions.index')->with('bcQuestions', $bcQuestions);
     }
 
     /**
@@ -35,7 +34,7 @@ class BcQuestionController extends AppBaseController
      */
     public function create()
     {
-        return view('bc_questions.create');
+        return view('bc.questions.create');
     }
 
     /**
@@ -65,7 +64,7 @@ class BcQuestionController extends AppBaseController
             return redirect(route('bcQuestions.index'));
         }
 
-        return view('bc_questions.show')->with('bcQuestion', $bcQuestion);
+        return view('bc.questions.show')->with('bcQuestion', $bcQuestion);
     }
 
     /**
@@ -81,7 +80,7 @@ class BcQuestionController extends AppBaseController
             return redirect(route('bcQuestions.index'));
         }
 
-        return view('bc_questions.edit')->with('bcQuestion', $bcQuestion);
+        return view('bc.questions.edit')->with('bcQuestion', $bcQuestion);
     }
 
     /**
