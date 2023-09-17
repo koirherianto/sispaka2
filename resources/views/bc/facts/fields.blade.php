@@ -37,5 +37,6 @@
 <!-- Value Fact Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('value_fact', 'Value Fact:') !!}
-    {!! Form::number('value_fact', null, ['class' => 'form-control']) !!}
+    {!! Form::number('value_fact', null, ['class' => 'form-control', 'step' => 'any', 'min' => '0', 'max' => '10']) !!}
+
 </div>

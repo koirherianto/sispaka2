@@ -34,20 +34,20 @@
     ]) !!}
 </div>
 
-<!-- Reason Field -->
-<div class="form-group col-sm-6">
+
+<div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('reason', 'Reason:') !!}
-    {!! Form::text('reason', null, [
+    {!! Form::textarea('reason', null, [
         'class' => 'form-control',
-        'maxlength' => 250,
+        'maxlength' => 65535,
     ]) !!}
 </div>
 
 <!-- Solution Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('solution', 'Solution:') !!}
-    {!! Form::text('solution', null, [
+    {!! Form::textarea('solution', null, [
         'class' => 'form-control',
-        'maxlength' => 250,
+        'maxlength' => 65535,
     ]) !!}
 </div>

@@ -28,7 +28,7 @@ class BcFactController extends AppBaseController
     public function index(Request $request)
     {
         if (Auth::user()->hasRole('super-admin')) {
-            $bcFacts = $this->bcFactRepository->paginate(10);
+            $bcFacts = $this->bcFactRepository->orderBy('created_at', 'desc')->paginate(10);
             foreach ($bcFacts->items() as $bcFact) {
                 $usersMaker = $bcFact->backwardChaining->project->users;
                 $usersMaker = $usersMaker->implode('name', ', ');
@@ -38,7 +38,11 @@ class BcFactController extends AppBaseController
 
         if (Auth::user()->hasRole(['individu','institution'])) {
             $sessionProject = Auth::user()->session_project;
-            $bcFacts = Project::find($sessionProject)->backwardChainings->bcFacts()->paginate(10);
+            $bcFacts = Project::find($sessionProject)
+            ->backwardChainings
+            ->bcFacts()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         }    
 
         return view('bc.facts.index')->with('bcFacts', $bcFacts);

@@ -25,7 +25,7 @@ class BcFact extends Model
         'backward_chaining_id' => 'required',
         'name' => 'required|string|max:200',
         'code_name' => 'required|string|max:100',
-        'value_fact' => 'nullable|numeric',
+        'value_fact' => 'required|string',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

@@ -27,8 +27,8 @@ class BcResult extends Model
         'backward_chaining_id' => 'required',
         'name' => 'required|string|max:200',
         'code_name' => 'required|string|max:100',
-        'reason' => 'nullable|string|max:250',
-        'solution' => 'nullable|string|max:250',
+        'description' => 'nullable|string|max:65535',
+        'description' => 'nullable|string|max:65535',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
