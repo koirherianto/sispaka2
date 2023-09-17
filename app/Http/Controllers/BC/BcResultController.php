@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use Flash;
 use Auth;
+use DB;
 
 class BcResultController extends AppBaseController
 {
@@ -147,8 +148,10 @@ class BcResultController extends AppBaseController
             return redirect(route('bcResults.index'));
         }
 
-        // $bcResult->bcQuestions->delete();
-        $this->bcResultRepository->delete($id);
+        DB::transaction(function () use($bcResult,$id) {
+            $bcResult->bcQuestions()->delete();
+            $this->bcResultRepository->delete($id);
+        },3);
 
         Flash::success('Bc Result deleted successfully.');
         return redirect(route('bcResults.index'));

@@ -7,7 +7,12 @@ use App\Http\Requests\UpdateBcQuestionRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\BcQuestionRepository;
 use Illuminate\Http\Request;
+use App\Models\BcResult;
+use App\Models\Project;
+use App\Models\BcFact;
+use App\Models\BcQuestion;
 use Flash;
+use Auth;
 
 class BcQuestionController extends AppBaseController
 {
@@ -24,9 +29,16 @@ class BcQuestionController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $bcQuestions = $this->bcQuestionRepository->paginate(10);
+        $sessionProject = Auth::user()->session_project;
+        $backwardChainings = Project::find($sessionProject)->backwardChainings;
 
-        return view('bc.questions.index')->with('bcQuestions', $bcQuestions);
+        $bcResults = $backwardChainings->bcResults;
+
+        foreach ($bcResults as $bcResult) {
+            $bcResult['bcQuestions'] = BcQuestion::where('bc_result_id',$bcResult->id)->with('bcFact')->get();  
+        }
+
+        return view('bc.questions.index')->with('bcResults', $bcResults);
     }
 
     /**
@@ -34,7 +46,14 @@ class BcQuestionController extends AppBaseController
      */
     public function create()
     {
-        return view('bc.questions.create');
+        $sessionProject = Auth::user()->session_project;
+        $backwardChaining = Project::find($sessionProject)->backwardChainings;
+
+        $isEditPage = false;
+        $bcFacts = $backwardChaining->bcFacts;
+        $bcResults = $backwardChaining->bcResults;
+
+        return view('bc.questions.create', compact('bcFacts', 'bcResults','isEditPage'));
     }
 
     /**
@@ -43,11 +62,19 @@ class BcQuestionController extends AppBaseController
     public function store(CreateBcQuestionRequest $request)
     {
         $input = $request->all();
+        //cek apakah ada data yang sama yang bc_result_id dan bc_fact_id nya sama
+        $bcQuestion = BcQuestion::where('bc_result_id',$input['bc_result_id'])->where('bc_fact_id',$input['bc_fact_id'])->first();
 
+        if($bcQuestion){
+            Flash::error('Question already exists. when result and fact are the same');
+            return redirect(route('bcQuestions.index'));
+        }
+
+        
+        
         $bcQuestion = $this->bcQuestionRepository->create($input);
 
         Flash::success('Bc Question saved successfully.');
-
         return redirect(route('bcQuestions.index'));
     }
 
@@ -60,7 +87,6 @@ class BcQuestionController extends AppBaseController
 
         if (empty($bcQuestion)) {
             Flash::error('Bc Question not found');
-
             return redirect(route('bcQuestions.index'));
         }
 
@@ -76,11 +102,17 @@ class BcQuestionController extends AppBaseController
 
         if (empty($bcQuestion)) {
             Flash::error('Bc Question not found');
-
             return redirect(route('bcQuestions.index'));
         }
 
-        return view('bc.questions.edit')->with('bcQuestion', $bcQuestion);
+        $sessionProject = Auth::user()->session_project;
+        $backwardChaining = Project::find($sessionProject)->backwardChainings;
+
+        $isEditPage = false;
+        $bcFacts = $backwardChaining->bcFacts;
+        $bcResults = $backwardChaining->bcResults;
+
+        return view('bc.questions.edit', compact('bcFacts','bcResults', 'bcQuestion','isEditPage'));
     }
 
     /**
@@ -88,18 +120,33 @@ class BcQuestionController extends AppBaseController
      */
     public function update($id, UpdateBcQuestionRequest $request)
     {
-        $bcQuestion = $this->bcQuestionRepository->find($id);
+        $bcQuestionOld = $this->bcQuestionRepository->find($id);
 
-        if (empty($bcQuestion)) {
+        if (empty($bcQuestionOld)) {
             Flash::error('Bc Question not found');
-
             return redirect(route('bcQuestions.index'));
         }
 
-        $bcQuestion = $this->bcQuestionRepository->update($request->all(), $id);
+        $input = $request->all();
+        
+        // jika bc_result_id dan bc_fact_id sama dengan data yang lama
+        if ($bcQuestionOld->bc_result_id == $input['bc_result_id'] && $bcQuestionOld->bc_fact_id == $input['bc_fact_id']) {
+            $bcQuestion = $this->bcQuestionRepository->update($input, $id);
+
+            Flash::success('Bc Question updated successfully.');
+            return redirect(route('bcQuestions.index'));
+        }
+        
+        // jika bc_result_id dan bc_fact_id beda dengan data yang lama
+        $dataSama = BcQuestion::where('bc_result_id',$input['bc_result_id'])->where('bc_fact_id',$input['bc_fact_id'])->first();
+        if($dataSama){
+            Flash::error('Question already exists. when result and fact are the same with other question');
+            return redirect(route('bcQuestions.index'));
+        }
+
+        $bcQuestion = $this->bcQuestionRepository->update($input, $id);
 
         Flash::success('Bc Question updated successfully.');
-
         return redirect(route('bcQuestions.index'));
     }
 
@@ -114,14 +161,12 @@ class BcQuestionController extends AppBaseController
 
         if (empty($bcQuestion)) {
             Flash::error('Bc Question not found');
-
             return redirect(route('bcQuestions.index'));
         }
 
         $this->bcQuestionRepository->delete($id);
 
         Flash::success('Bc Question deleted successfully.');
-
         return redirect(route('bcQuestions.index'));
     }
 }

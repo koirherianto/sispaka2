@@ -13,7 +13,8 @@
     </a>
     <ul class="nav nav-treeview ml-3"> <!-- Tambahkan kelas ml-3 untuk submenu -->
         <li class="nav-item">
-            <a href="{{ route('permissions.index') }}" class="nav-link {{ Request::is('permissions*') ? 'active' : '' }}">
+            <a href="{{ route('permissions.index') }}"
+                class="nav-link {{ Request::is('permissions*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-lock"></i>
                 <p>Permissions</p>
             </a>
@@ -51,31 +52,39 @@
         <i class="nav-icon fas fa-users"></i>
         <p>Backward Chaining<i class="fas fa-angle-left right"></i></p>
     </a>
-    <ul class="nav nav-treeview ml-3"> 
-        <li class="nav-item">
-            <a href="{{ route('backwardChainings.index') }}" class="nav-link {{ Request::is('backwardChainings*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-home"></i>
+    <ul class="nav nav-treeview ml-3">
+        {{-- <li class="nav-item">
+            <a href="{{ route('backwardChainings.index') }}"
+                class="nav-link {{ Request::is('backwardChainings*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-cogs"></i>
                 <p>Backward Chainings</p>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a href="{{ route('bcFacts.index') }}" class="nav-link {{ Request::is('bcFacts*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-home"></i>
+                <i class="nav-icon fas fa-list-alt"></i>
                 <p>Bc Facts</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('bcResults.index') }}" class="nav-link {{ Request::is('bcResults*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-home"></i>
+                <i class="nav-icon fas fa-chart-pie"></i>
                 <p>Bc Results</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('bcQuestions.index') }}"
+                class="nav-link {{ Request::is('bcQuestions*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-question-circle"></i>
+                <p>Bc Questions</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('trybc.selectResult') }}"
+                class="nav-link {{ Request::is('trybc*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>Bc Try</p>
+            </a>
+        </li>
     </ul>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('bcQuestions.index') }}" class="nav-link {{ Request::is('bcQuestions*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Bc Questions</p>
-    </a>
 </li>

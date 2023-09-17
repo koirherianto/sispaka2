@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use Flash;
 use Auth;
+use DB;
 
 class BcFactController extends AppBaseController
 {
@@ -147,8 +148,10 @@ class BcFactController extends AppBaseController
             return redirect(route('bcFacts.index'));
         }
 
-        // $bcFact->bc_questions->delete();
-        $this->bcFactRepository->delete($id);
+        DB::transaction(function () use($bcFact,$id) {
+            $bcFact->bcQuestions()->delete();
+            $this->bcFactRepository->delete($id);
+        },3);
 
         Flash::success('Bc Fact deleted successfully.');
         return redirect(route('bcFacts.index'));

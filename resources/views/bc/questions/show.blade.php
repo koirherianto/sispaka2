@@ -6,14 +6,17 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-Bc Question Details
+                        Backward Chaining Details |
+                        @if (Auth::user()->hasRole('super-admin'))
+                            Admin View |
+                        @endif
+                        {{ Auth::user()->sessionProjects->title }}
                     </h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
-                       href="{{ route('bcQuestions.index') }}">
-                                                    Back
-                                            </a>
+                    <a class="btn btn-default float-right" href="{{ route('bcQuestions.index') }}">
+                        Back
+                    </a>
                 </div>
             </div>
         </div>

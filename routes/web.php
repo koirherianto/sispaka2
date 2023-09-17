@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\BC\TryBcController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('bcFacts', App\Http\Controllers\BC\BcFactController::class);
         Route::resource('bcResults', App\Http\Controllers\BC\BcResultController::class);
         Route::resource('bcQuestions', App\Http\Controllers\BC\BcQuestionController::class);
+        Route::get('/tryBc/selectResult', [TryBcController::class, 'selectResults'])->name('trybc.selectResult');
+        Route::post('/tryBc/selectQuestion', [TryBcController::class, 'selectQuestion'])->name('trybc.selectQuestion');
+        Route::post('/tryBc/results', [TryBcController::class, 'results'])->name('trybc.results');
     });
 
 });
