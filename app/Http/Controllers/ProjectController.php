@@ -9,6 +9,7 @@ use App\Repositories\ProjectRepository;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\BcFact;
 use App\Models\Method;
 use App\Models\BackwardChaining;
 use DB;
@@ -68,6 +69,8 @@ class ProjectController extends AppBaseController
     public function store(CreateProjectRequest $request)
     {
         $input = $request->all();
+
+        $input['status_publish'] = 'not_publish';
 
         //jika dia bukan super admin, maka user_id diisi dengan id user yang sedang login
         if (!Auth::user()->hasRole('super-admin')) {
@@ -141,6 +144,7 @@ class ProjectController extends AppBaseController
         }
 
         $input = $request->all();
+        unset($input['status_publish']);
         
         if (!Auth::user()->hasRole('super-admin')) {
             $input['user_id'] = auth()->user()->id;
@@ -170,20 +174,50 @@ class ProjectController extends AppBaseController
             return redirect(route('projects.index'));
         }
 
-        DB::transaction(function () use($id,$project) {
-            //unsingkron many to many
+        DB::transaction(function () use ($id, $project) {
             $project->users()->sync([]);
             $project->methods()->sync([]);
-            $project->backwardChainings()->delete();
-            // $project->facts()->question()->delete();
-            // $project->result()->question()->delete();
-            // $project->facts()->delete();
-            // $project->result()->delete();
-            Auth::user()->session_project = null;
-            $this->projectRepository->delete($id);
-        },3);
+
+            $bcFacts = $project->backwardChainings->bcFacts;
+            $bcResults = $project->backwardChainings->bcResults;
         
-        Flash::success('Project deleted successfully.');
+            // Hapus semua bcQuestions yang terkait dengan bcFacts
+            $bcFacts->each(function ($bcFact) {
+                $bcFact->bcQuestions->each(function ($bcQuestion) {
+                    $bcQuestion->delete();
+                });
+            });
+        
+            // Hapus semua bcQuestions yang terkait dengan bcResults
+            $bcResults->each(function ($bcResult) {
+                $bcResult->bcQuestions->each(function ($bcQuestion) {
+                    $bcQuestion->delete();
+                });
+            });
+        
+            // Hapus semua bcFacts
+            $bcFacts->each->delete();
+        
+            // Hapus semua bcResults
+            $bcResults->each->delete();
+        
+            // Hapus backwardChaining
+            $project->backwardChainings->delete();
+
+            // hapus session_project pada user yang memiliki id project ini
+            User::all()->each(function ($user) use ($id) {
+                if ($user->session_project == $id) {
+                    $user->session_project = null;
+                    $user->save();
+                }
+            });
+        
+            // Auth::user()->session_project = null;
+            $this->projectRepository->delete($id);
+        }, 3);
+        
+        
+        Flash::success('Project  deleted successfully.');
         return redirect(route('projects.index'));
     }
 

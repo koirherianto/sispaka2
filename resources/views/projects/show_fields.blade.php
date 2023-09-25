@@ -34,12 +34,6 @@
     <p>{{ $project->status_publish }}</p>
 </div>
 
-<!-- Institution Field -->
-<div class="col-sm-12">
-    {!! Form::label('institution', 'Institution:') !!}
-    <p>{{ $project->institution }}</p>
-</div>
-
 <div class="col-sm-12">
     {!! Form::label('created_at', 'Dibuat pada:') !!}
     <p>{{ $project->created_at->format('d/m/Y') }}</p>

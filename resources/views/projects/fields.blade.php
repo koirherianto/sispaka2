@@ -26,23 +26,8 @@
     ]) !!}
 </div>
 
-<div class="form-group col-sm-6">
-    {!! Form::label('status_publish', 'Status Publish:') !!}
-    {!! Form::select('status_publish', ['not_publish' => 'Not Yet Publish', 'publish' => 'Publish'], null, [
-        'class' => 'form-control',
-        'required',
-    ]) !!}
-</div>
+<input type="hidden" value="-" name="status_publish">
 
-
-<!-- Institution Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('institution', 'Institution:') !!}
-    {!! Form::text('institution', null, [
-        'class' => 'form-control',
-        'maxlength' => 45,
-    ]) !!}
-</div>
 
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">

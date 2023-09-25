@@ -11,21 +11,18 @@ class Project extends Model
     public $fillable = [
         'title',
         'status_publish',
-        'institution',
         'description'
     ];
 
     protected $casts = [
         'title' => 'string',
         'status_publish' => 'string',
-        'institution' => 'string',
         'description' => 'string'
     ];
 
     public static array $rules = [
         'title' => 'required|string|max:100',
         'status_publish' => 'required|string',
-        'institution' => 'nullable|string|max:45',
         'description' => 'nullable|string|max:65535',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
