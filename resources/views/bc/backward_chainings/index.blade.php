@@ -8,7 +8,7 @@
                     <h1>Backward Chainings</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
+                    <a class="btn btn-info float-right"
                        href="{{ route('backwardChainings.create') }}">
                         Add New
                     </a>

@@ -8,7 +8,7 @@
                     <h1>Methods</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
+                    <a class="btn btn-info float-right"
                        href="{{ route('methods.create') }}">
                         Add New
                     </a>

@@ -6,6 +6,8 @@
     </a>
 </li>
 
+{{-- jika buka role admin --}}
+@if (Auth::user()->hasRole('admin'))
 <li class="nav-item has-treeview">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-users"></i>
@@ -39,6 +41,9 @@
         </li>
     </ul>
 </li>
+@endif
+
+
 
 <li class="nav-item">
     <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">

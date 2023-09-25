@@ -22,9 +22,13 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::resource('permissions', App\Http\Controllers\PermissionController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
-    Route::resource('roles', App\Http\Controllers\RoleController::class);
+    //middle ware role untuk admin
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::resource('roles', App\Http\Controllers\RoleController::class);
+    });
+
     Route::post('/changeProject/{id}', [ProjectController::class, 'changeProject'])->name('changeProject');
     Route::resource('projects', ProjectController::class);
     Route::resource('methods', App\Http\Controllers\MethodController::class);
