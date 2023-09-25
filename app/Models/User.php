@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Auth;
+
 class User extends Authenticatable
 {
     use hasRoles;
@@ -38,6 +40,24 @@ class User extends Authenticatable
         'deleted_at' => 'nullable|nullable'
     ];
 
+    public function sessionProjecthasBackwardChainingMethod(): bool
+    {
+        $sessionProject = Auth::user()->session_project;
+        $project = Project::find($sessionProject);
+
+        // Dapatkan semua metode yang dimiliki oleh proyek ini
+        $methods = $project->methods ?? [];
+
+        // Loop melalui metode-metode dan periksa jika ada yang memiliki nama "backward-chaining"
+        foreach ($methods as $method) {
+            if ($method->slug === 'backward-chaining') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function projects() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'user_has_projects', 'user_id', 'project_id');
@@ -47,4 +67,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Project::class,'session_project');
     }
+
+    
 }
