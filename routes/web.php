@@ -17,8 +17,15 @@ use App\Http\Controllers\BC\TryBcController;
 
 Auth::routes();
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('/inner-page', function () {
+    return view('inner-page');
+});
+Route::get('/portfolio-details', function () {
+    return view('portfolio-details');
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
