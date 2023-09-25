@@ -4,6 +4,7 @@
     <section class="content-header">
         <div class="container-fluid">
             @include('adminlte-templates::common.errors')
+            @include('flash::message')
 
             <h1>Pilih Result</h1>
             

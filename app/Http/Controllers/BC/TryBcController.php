@@ -32,7 +32,83 @@ class TryBcController extends Controller
     }
 
     // yang ketiga tampilkan hasil dari pertanyaan yang dipilih
+    // public function results(Request $request) {
+    //     //semua pertanyaan
+    //     $bcQuestions = BcQuestion::find($request->bcQuestion[0])->bcResult->bcQuestions->load('bcFact');
+    //     //pertanyaan yang dipilih
+    //     $bcQuestionCheckBoxs = [];
+    //     foreach ($request->bcQuestion as $key => $value) {
+    //         $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
+    //         $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
+    //     }
+
+
+    //     if (empty($request->bcQuestion)) {
+    //         Flash::error('Choose at least one question');
+    //         return redirect(route('trybc.selectResult'));
+    //     }
+
+    //     $bcFactsValueAll = 0;
+    //     $bcQuestions = BcQuestion::find($request->bcQuestion[0])->bcResult->bcQuestions->load('bcFact');
+    //     foreach ($bcQuestions as $value) {
+    //         $bcFactsValueAll += $value->bcFact->value_fact;
+    //     }
+        
+
+    //     $bcQuestionCheckBoxs = [];
+    //     $bcFactsValue = 0;
+    //     foreach ($request->bcQuestion as $key => $value) {
+    //         $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
+    //         $bcFactsValue += $bcQuestionCheckBox->bcFact->value_fact;
+    //         $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
+    //     }
+
+    //     // 40 = 100
+    //     // 10,5 = 
+
+    //     return [
+    //         'semuaQuestion' => $bcQuestions,
+    //         'bcQuestionCheckBoxs' => $bcQuestionCheckBoxs,
+    //         'bcFactsValue' => $bcFactsValue,
+    //         'hasil' => (100 * $bcFactsValue) / $bcFactsValueAll ,
+    //     ];
+
+
+    //     return $bcQuestionCheckBoxs;
+    // }
+
     public function results(Request $request) {
-        return $request->all();
+        // diagnosa penyakit / result
+        $bcResult = BcQuestion::find($request->bcQuestion[0])->bcResult;
+        // Semua pertanyaan
+        $bcQuestions = $bcResult->bcQuestions->load('bcFact');
+        //all question count
+        $bcQuestionsCount = count($bcQuestions);
+        
+        // Pertanyaan yang dipilih
+        $bcQuestionCheckBoxs = [];
+        foreach ($request->bcQuestion as $key => $value) {
+            $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
+            $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
+        }
+        
+        // Hitung total nilai faktor dari pertanyaan yang dicentang
+        $totalFaktorDicentang = 0;
+        foreach ($bcQuestionCheckBoxs as $question) {
+            $totalFaktorDicentang += $question->bcFact->value_fact;
+        }
+        
+        // Tentukan nilai faktor maksimal (disesuaikan dengan kebutuhan Anda)
+        // $nilaiFaktorMaksimal = 100; // Misalnya, 100 adalah nilai faktor maksimal
+        $nilaiFaktorMaksimal = $bcQuestionsCount * 10; // Misalnya, 100 adalah nilai faktor maksimal
+        
+        // Hitung persentase kemungkinan
+        $persentaseKemungkinan = ($totalFaktorDicentang / $nilaiFaktorMaksimal) * 100;
+        
+        // Tampilkan hasil kepada pengguna
+        $diagnosis = "Sapi kena penyakit " . $bcResult->name ." kemungkinan " . number_format($persentaseKemungkinan, 2) . "%";
+    
+        return view('bc.try.results',compact('diagnosis','bcResult'));
     }
+    
 }
