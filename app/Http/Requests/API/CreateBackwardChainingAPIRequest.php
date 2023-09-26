@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\BackwardChaining;
+use App\Models\BC\BackwardChaining;
 use InfyOm\Generator\Request\APIRequest;
 
 class CreateBackwardChainingAPIRequest extends APIRequest

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\BC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,11 +30,11 @@ class BackwardChaining extends Model
 
     public function bcFacts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\BcFact::class, 'backward_chaining_id');
+        return $this->hasMany(\App\Models\BC\BcFact::class, 'backward_chaining_id');
     }
 
     public function bcResults(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\BcResult::class, 'backward_chaining_id');
+        return $this->hasMany(\App\Models\BC\BcResult::class, 'backward_chaining_id');
     }
 }

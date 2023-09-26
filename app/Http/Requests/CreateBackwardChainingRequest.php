@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\BackwardChaining;
+use App\Models\BC\BackwardChaining;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateBackwardChainingRequest extends FormRequest

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateBcResultAPIRequest;
 use App\Http\Requests\API\UpdateBcResultAPIRequest;
-use App\Models\BcResult;
+use App\Models\BC\BcResult;
 use App\Repositories\BcResultRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\BcFact;
+use App\Models\BC\BcFact;
 use App\Repositories\BaseRepository;
 
 class BcFactRepository extends BaseRepository

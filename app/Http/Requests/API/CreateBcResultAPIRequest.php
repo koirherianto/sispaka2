@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\BcResult;
+use App\Models\BC\BcResult;
 use InfyOm\Generator\Request\APIRequest;
 
 class CreateBcResultAPIRequest extends APIRequest

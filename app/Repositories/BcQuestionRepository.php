@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\BcQuestion;
+use App\Models\BC\BcQuestion;
 use App\Repositories\BaseRepository;
 
 class BcQuestionRepository extends BaseRepository

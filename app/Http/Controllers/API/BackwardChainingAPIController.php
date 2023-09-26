@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateBackwardChainingAPIRequest;
 use App\Http\Requests\API\UpdateBackwardChainingAPIRequest;
-use App\Models\BackwardChaining;
+use App\Models\BC\BackwardChaining;
 use App\Repositories\BackwardChainingRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\BC;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BcResult extends Model
+class BcFact extends Model
 {
-    public $table = 'bc_results';
+    public $table = 'bc_facts';
 
     public $fillable = [
         'backward_chaining_id',
         'name',
         'code_name',
-        'reason',
-        'solution'
+        'value_fact'
     ];
 
     protected $casts = [
         'name' => 'string',
         'code_name' => 'string',
-        'reason' => 'string',
-        'solution' => 'string'
+        'value_fact' => 'float'
     ];
 
     public static array $rules = [
         'backward_chaining_id' => 'required',
         'name' => 'required|string|max:200',
         'code_name' => 'required|string|max:100',
-        'description' => 'nullable|string|max:65535',
-        'description' => 'nullable|string|max:65535',
+        'value_fact' => 'required|string',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -36,11 +33,11 @@ class BcResult extends Model
 
     public function backwardChaining(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\BackwardChaining::class, 'backward_chaining_id');
+        return $this->belongsTo(\App\Models\BC\BackwardChaining::class, 'backward_chaining_id');
     }
 
     public function bcQuestions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\BcQuestion::class, 'bc_result_id');
+        return $this->hasMany(\App\Models\BC\BcQuestion::class, 'bc_fact_id');
     }
 }

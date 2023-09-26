@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\BC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,11 +32,11 @@ class BcQuestion extends Model
 
     public function bcFact(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\BcFact::class, 'bc_fact_id');
+        return $this->belongsTo(\App\Models\BC\BcFact::class, 'bc_fact_id');
     }
 
     public function bcResult(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\BcResult::class, 'bc_result_id');
+        return $this->belongsTo(\App\Models\BC\BcResult::class, 'bc_result_id');
     }
 }

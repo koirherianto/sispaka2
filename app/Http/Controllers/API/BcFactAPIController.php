@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateBcFactAPIRequest;
 use App\Http\Requests\API\UpdateBcFactAPIRequest;
-use App\Models\BcFact;
+use App\Models\BC\BcFact;
 use App\Repositories\BcFactRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

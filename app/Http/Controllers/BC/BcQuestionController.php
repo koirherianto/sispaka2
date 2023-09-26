@@ -7,10 +7,10 @@ use App\Http\Requests\UpdateBcQuestionRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\BcQuestionRepository;
 use Illuminate\Http\Request;
-use App\Models\BcResult;
+use App\Models\BC\BcResult;
 use App\Models\Project;
-use App\Models\BcFact;
-use App\Models\BcQuestion;
+use App\Models\BC\BcFact;
+use App\Models\BC\BcQuestion;
 use Flash;
 use Auth;
 

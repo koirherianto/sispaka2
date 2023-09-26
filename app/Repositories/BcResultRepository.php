@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\BcResult;
+use App\Models\BC\BcResult;
 use App\Repositories\BaseRepository;
 
 class BcResultRepository extends BaseRepository

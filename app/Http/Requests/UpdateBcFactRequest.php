@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\BcFact;
+use App\Models\BC\BcFact;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBcFactRequest extends FormRequest

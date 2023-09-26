@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\BcQuestion;
+use App\Models\BC\BcQuestion;
 use InfyOm\Generator\Request\APIRequest;
 
 class UpdateBcQuestionAPIRequest extends APIRequest

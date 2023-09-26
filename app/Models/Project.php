@@ -31,7 +31,7 @@ class Project extends Model
 
     public function backwardChainings(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(\App\Models\BackwardChaining::class, 'project_id');
+        return $this->hasOne(\App\Models\BC\BackwardChaining::class, 'project_id');
     }
 
     public function contributors(): \Illuminate\Database\Eloquent\Relations\HasMany
