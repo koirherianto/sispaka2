@@ -17,13 +17,13 @@ use App\Http\Controllers\BC\TryBcController;
 
 Auth::routes();
 Route::get('/', function () {
-    return view('index');
+    return view('landing.index');
 });
 Route::get('/inner-page', function () {
-    return view('inner-page');
+    return view('landing.inner-page');
 });
 Route::get('/portfolio-details', function () {
-    return view('portfolio-details');
+    return view('landing.portfolio-details');
 });
 
 Route::group(['middleware' => 'auth'], function () {
