@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BC\TryBcController;
+use App\Http\Controllers\BC\BcSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/tryBc/selectResult', [TryBcController::class, 'selectResults'])->name('trybc.selectResult');
         Route::post('/tryBc/selectQuestion', [TryBcController::class, 'selectQuestion'])->name('trybc.selectQuestion');
         Route::post('/tryBc/results', [TryBcController::class, 'results'])->name('trybc.results');
+        Route::get('/bcSetting', [BcSettingController::class, 'index'])->name('bcSetting');
+        Route::post('/bcSetting', [BcSettingController::class, 'store'])->name('bcSetting.store');
     });
 
 });

@@ -61,13 +61,6 @@
             <p>Backward Chaining<i class="fas fa-angle-left right"></i></p>
         </a>
         <ul class="nav nav-treeview ml-3">
-            {{-- <li class="nav-item">
-            <a href="{{ route('backwardChainings.index') }}"
-                class="nav-link {{ Request::is('backwardChainings*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-cogs"></i>
-                <p>Backward Chainings</p>
-            </a>
-        </li> --}}
             <li class="nav-item">
                 <a href="{{ route('bcFacts.index') }}" class="nav-link {{ Request::is('bcFacts*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-list-alt"></i>
@@ -93,6 +86,12 @@
                     class="nav-link {{ Request::is('trybc*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cogs"></i>
                     <p>Bc Try</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('bcSetting') }}" class="nav-link {{ Request::is('bcSetting*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-gear"></i>
+                    <p>Bc Setting</p>
                 </a>
             </li>
         </ul>

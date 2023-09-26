@@ -9,7 +9,8 @@ class BackwardChaining extends Model
     public $table = 'backward_chainings';
 
     public $fillable = [
-        'project_id'
+        'project_id',
+        'status_redy'
     ];
 
     protected $casts = [
@@ -18,6 +19,7 @@ class BackwardChaining extends Model
 
     public static array $rules = [
         'project_id' => 'required',
+        'status_redy' => 'string',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
