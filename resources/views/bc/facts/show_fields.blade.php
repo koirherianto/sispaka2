@@ -21,6 +21,14 @@
     <p>{{ $bcFact->code_name }}</p>
 </div>
 
+<!-- Image Result Field -->
+<div class="col-sm-12">
+    {!! Form::label('image_result', 'Image Result:') !!}
+    <p>
+        <img src="{{ $bcFact->getFirstMediaUrl('bc_fact') }}" alt="{{ $bcFact->name }}" width="200">
+    </p>
+</div>
+
 <!-- Value Fact Field -->
 <div class="col-sm-12">
     {!! Form::label('value_fact', 'Value Fact:') !!}

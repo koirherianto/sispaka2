@@ -38,5 +38,18 @@
 <div class="form-group col-sm-6">
     {!! Form::label('value_fact', 'Value Fact:') !!}
     {!! Form::number('value_fact', null, ['class' => 'form-control', 'step' => 'any', 'min' => '0', 'max' => '10']) !!}
-
 </div>
+
+<div class="form-group col-sm-12 col-lg-12">
+    {!! Form::label('image_fact', 'Image : (opsional)') !!}
+    {!! Form::file('image_fact', ['class' => 'form-control']) !!}
+</div>
+
+@if ($isEditPage && $bcFact->hasMedia('bc_fact'))
+    <div class="form-group col-sm-12 col-lg-12">
+        <label>Current Image:</label>
+        <div class="">
+            <img src="{{ $bcFact->getFirstMediaUrl('bc_fact') }}" alt="Current Image" class="img-thumbnail" style="max-width: 300px; max-height: 300px;">
+        </div>
+    </div>
+@endif

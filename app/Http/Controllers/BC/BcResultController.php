@@ -70,6 +70,8 @@ class BcResultController extends AppBaseController
             $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
         }
 
+        //bungkus db transaksion
+        
         $bcResult = $this->bcResultRepository->create($input);
 
         if ($request->hasFile('image_result')) {

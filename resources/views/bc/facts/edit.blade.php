@@ -23,7 +23,7 @@
 
         <div class="card">
 
-            {!! Form::model($bcFact, ['route' => ['bcFacts.update', $bcFact->id], 'method' => 'patch']) !!}
+            {!! Form::model($bcFact, ['route' => ['bcFacts.update', $bcFact->id], 'method' => 'patch', 'files' => true]) !!}
 
             <div class="card-body">
                 <div class="row">

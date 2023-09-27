@@ -74,11 +74,19 @@ class BcFactController extends AppBaseController
             $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
         }
 
-        $bcFact = $this->bcFactRepository->create($input);
+        DB::transaction(function () use($request,$input) {
+            $bcFact = $this->bcFactRepository->create($input);
+            if ($request->hasFile('image_fact')) {
+                $file = $request->file('image_fact');
+                $bcFact->addMedia($file)->toMediaCollection('bc_fact');
+            }    
+        },3);
 
+        
         Flash::success('Bc Fact saved successfully.');
         return redirect(route('bcFacts.index'));
     }
+
 
     /**
      * Display the specified BcFact.
@@ -132,7 +140,14 @@ class BcFactController extends AppBaseController
         $input = $request->all();
         unset($input['backward_chaining_id']);
 
-        $bcFact = $this->bcFactRepository->update($input, $id);
+        DB::transaction(function () use($bcFact,$request,$input,$id) {
+            $bcFact = $this->bcFactRepository->update($input, $id);
+            if ($request->hasFile('image_fact')) {
+                $file = $request->file('image_fact');
+                $bcFact->clearMediaCollection('bc_fact');
+                $bcFact->addMedia($file)->toMediaCollection('bc_fact');
+            }    
+        },3);
 
         Flash::success('Bc Fact updated successfully.');
         return redirect(route('bcFacts.index'));
@@ -154,6 +169,9 @@ class BcFactController extends AppBaseController
 
         DB::transaction(function () use($bcFact,$id) {
             $bcFact->bcQuestions()->delete();
+            $bcFact->getMedia('bc_fact')->each(function ($media) {
+                $media->delete();
+            });
             $this->bcFactRepository->delete($id);
         },3);
 
