@@ -1,3 +1,5 @@
+
+
 @role('super-admin')
     <div class="form-group col-sm-6">
         {!! Form::label('user_id', 'User:') !!}
@@ -8,13 +10,6 @@
 @role('individual')
     <input type="hidden" value="-" name="user_id">
 @endrole
-
-@if (!$isEditPage)
-    <div class="form-group col-sm-6">
-        {!! Form::label('method_id', 'Method:') !!}
-        {!! Form::select('method_id', $methods->pluck('name', 'id'), null, ['class' => 'form-control', 'required']) !!}
-    </div>
-@endif  
 
 @if ($isEditPage)
     <div class="form-group col-sm-6">
@@ -30,8 +25,6 @@
     <input type="hidden" value="-" name="status_publish">
 @endif
 
-
-
 <!-- Title Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('title', 'Title:') !!}
@@ -42,11 +35,35 @@
     ]) !!}
 </div>
 
+@if (!$isEditPage)
+<!-- Method -->
+    <div class="form-group col-sm-7">
+        {!! Form::label('method_id', 'Method: (its cannot change later)') !!}
+        @foreach ($methods as $method)
+            <div class="form-check">
+                {!! Form::checkbox('method_ids[]', $method->id, false, ['class' => 'form-check-input', 'id' => 'method_id_'.$method->id]) !!}
+                {!! Form::label('method_id_'.$method->id, $method->name, ['class' => 'form-check-label']) !!}
+            </div>
+        @endforeach
+    </div>
+@endif
+
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('description', 'Description:') !!}
-    {!! Form::textarea('description', null, [
-        'class' => 'form-control',
-        'maxlength' => 65535,
-    ]) !!}
+    {!! Form::label('description', 'Description: - Jangan Pakai Judul') !!}
+    <textarea name="description" id="description"  class="form-control"> {!! $project->description !!}</textarea>
 </div>
+
+
+<script src="https://cdn.ckeditor.com/4.17.2/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description', {
+        disallowedContent: 'h1'
+    });
+</script>
+
+{{-- <script>
+    CKEDITOR.replace('description', {
+        allowedContent: 'p[!class];'
+    });
+</script> --}}

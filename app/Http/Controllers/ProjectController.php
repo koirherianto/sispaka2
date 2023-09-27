@@ -51,18 +51,18 @@ class ProjectController extends AppBaseController
     public function create()
     {
         $users = [];
+        $isEditPage = false;
+        $methods = Method::all();
+
         if (Auth::user()->hasRole('super-admin')) {
-            //ambil user yang punya role individu atau institusi
             $users = User::whereHas('roles', function($q){
                 $q->whereIn('name', ['individu', 'institution']);
             })->get();
         }
 
-        $isEditPage = false;
-        $methods = Method::all();
-
-        return view('projects.create', compact('users','methods','isEditPage'));
+        return view('projects.create', compact('users', 'methods', 'isEditPage'));
     }
+
 
     /**
      * Store a newly created Project in storage.
@@ -70,19 +70,27 @@ class ProjectController extends AppBaseController
     public function store(CreateProjectRequest $request)
     {
         $input = $request->all();
-
+        // return $input;
         $input['status_publish'] = 'not_publish';
 
         //jika dia bukan super admin, maka user_id diisi dengan id user yang sedang login
         if (!Auth::user()->hasRole('super-admin')) {
             $input['user_id'] = auth()->user()->id;
         }
-        
+
+        // jika checkbox belum dipilih
+        if (!(isset($input['method_ids']) && is_array($input['method_ids']))) {
+            Flash::error('Choose at least one method');
+            return redirect(route('projects.create'));
+        }
 
         DB::transaction(function () use($input) {
             $project = $this->projectRepository->create($input);
             $project->users()->sync($input['user_id']);
-            $project->methods()->sync($input['method_id']);
+
+            // Mengelola metode yang dipilih (dari checkbox)
+            $project->methods()->sync($input['method_ids']);
+
             BackwardChaining::create([
                 'project_id' => $project->id
             ]);
@@ -92,6 +100,7 @@ class ProjectController extends AppBaseController
         return redirect(route('projects.index'));
     }
 
+    
     /**
      * Display the specified Project.
      */
