@@ -72,6 +72,11 @@ class BcResultController extends AppBaseController
 
         $bcResult = $this->bcResultRepository->create($input);
 
+        if ($request->hasFile('image_result')) {
+            $file = $request->file('image_result');
+            $bcResult->addMedia($file)->toMediaCollection('bc_result');
+        }
+
         Flash::success('Bc Result saved successfully.');
         return redirect(route('bcResults.index'));
     }
@@ -128,6 +133,12 @@ class BcResultController extends AppBaseController
         $input = $request->all();
         unset($input['backward_chaining_id']);
 
+        if ($request->hasFile('image_result')) {
+            $file = $request->file('image_result');
+            $bcResult->clearMediaCollection('bc_result');
+            $bcResult->addMedia($file)->toMediaCollection('bc_result');
+        }
+
         $bcResult = $this->bcResultRepository->update($input, $id);
 
         Flash::success('Bc Result updated successfully.');
@@ -150,6 +161,10 @@ class BcResultController extends AppBaseController
 
         DB::transaction(function () use($bcResult,$id) {
             $bcResult->bcQuestions()->delete();
+            // Hapus gambar terkait
+            $bcResult->getMedia('bc_result')->each(function ($media) {
+                $media->delete();
+            });
             $this->bcResultRepository->delete($id);
         },3);
 

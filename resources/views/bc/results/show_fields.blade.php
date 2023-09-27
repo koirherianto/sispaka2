@@ -21,6 +21,14 @@
     <p>{{ $bcResult->code_name }}</p>
 </div>
 
+<!-- Image Result Field -->
+<div class="col-sm-12">
+    {!! Form::label('image_result', 'Image Result:') !!}
+    <p>
+        <img src="{{ $bcResult->getFirstMediaUrl('bc_result') }}" alt="{{ $bcResult->name }}" width="200">
+    </p>
+</div>
+
 <!-- Reason Field -->
 <div class="col-sm-12">
     {!! Form::label('reason', 'Reason:') !!}
@@ -42,4 +50,3 @@
     {!! Form::label('created_at', 'Diperbarui pada:') !!}
     <p>{{ $bcResult->updated_at->format('d/m/Y H:i') }}</p>
 </div>
-

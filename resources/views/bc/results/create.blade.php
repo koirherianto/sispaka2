@@ -24,7 +24,7 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'bcResults.store']) !!}
+            {!! Form::open(['route' => 'bcResults.store','files' => true]) !!}
 
             <div class="card-body">
 

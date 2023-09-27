@@ -3,9 +3,13 @@
 namespace App\Models\BC;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
 
-class BcResult extends Model
+class BcResult extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+    
     public $table = 'bc_results';
 
     public $fillable = [
