@@ -43,6 +43,7 @@ class ProjectController extends AppBaseController
 
         return view('projects.index')->with('projects', $projects);
     }
+    
 
     /**
      * Show the form for creating a new Project.
@@ -144,7 +145,8 @@ class ProjectController extends AppBaseController
         }
 
         $input = $request->all();
-        unset($input['status_publish']);
+
+        // unset($input['status_publish']);
         
         if (!Auth::user()->hasRole('super-admin')) {
             $input['user_id'] = auth()->user()->id;
@@ -226,6 +228,11 @@ class ProjectController extends AppBaseController
         $user->session_project = $id;
         $user->save();
         return redirect(route('projects.index'));
+    }
+
+    function settingPage()  {
+
+        return view('projects.edit', compact('users'));
     }
 
     private function statusPublishEnum($enum) : String {

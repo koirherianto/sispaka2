@@ -53,8 +53,8 @@
                                         Show
                                     </a>
                                     <a href="{{ route('projects.edit', [$project->id]) }}"
-                                        class="btn btn-warning btn-sm ml-1">
-                                        Edit
+                                        class="btn btn-info btn-sm ml-1">
+                                        Setting
                                     </a>
                                     {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'delete']) !!}
                                     {!! Form::button('Delete', [

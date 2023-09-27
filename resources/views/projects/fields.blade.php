@@ -14,7 +14,23 @@
         {!! Form::label('method_id', 'Method:') !!}
         {!! Form::select('method_id', $methods->pluck('name', 'id'), null, ['class' => 'form-control', 'required']) !!}
     </div>
+@endif  
+
+@if ($isEditPage)
+    <div class="form-group col-sm-6">
+        {!! Form::label('status_publish', 'Status Publish') !!}
+        {!! Form::select(
+            'status_publish',
+            ['publish' => 'Publish', 'not_publish' => 'Not Publish'],
+            $project->status_publish,
+            ['class' => 'form-control'],
+        ) !!}
+    </div>
+@else
+    <input type="hidden" value="-" name="status_publish">
 @endif
+
+
 
 <!-- Title Field -->
 <div class="form-group col-sm-6">
@@ -25,9 +41,6 @@
         'maxlength' => 100,
     ]) !!}
 </div>
-
-<input type="hidden" value="-" name="status_publish">
-
 
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
