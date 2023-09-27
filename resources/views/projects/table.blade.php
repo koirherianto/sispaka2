@@ -53,23 +53,27 @@
                                         Show
                                     </a>
                                     <a href="{{ route('projects.edit', [$project->id]) }}"
-                                        class="btn btn-info btn-sm ml-1">
+                                        class="btn btn-warning btn-sm ml-1">
                                         Setting
                                     </a>
-                                    {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'delete']) !!}
-                                    {!! Form::button('Delete', [
-                                        'type' => 'submit',
-                                        'class' => 'btn btn-danger btn-sm ml-1',
-                                        'onclick' => "return confirm('Are you sure?')",
-                                    ]) !!}
-                                    {!! Form::close() !!}
+                                    <a href="{{ route('projects.edit', [$project->id]) }}"
+                                        class="btn btn-info btn-sm ml-1">
+                                        Contributor
+                                    </a>
+                                </div>
+                                <div class="btn-group mt-2">
                                     <!-- Switch Button -->
                                     {!! Form::open(['route' => ['changeProject', $project->id], 'method' => 'post']) !!}
                                     {!! Form::button(Auth::user()->session_project == $project->id ? 'Manage' : 'Manage', [
                                         'type' => 'submit',
-                                        //jika $user->session_project == $project->id maka button akan berwarna hijau
-                                        'class' => 'btn btn-sm ml-1 ' . (Auth::user()->session_project == $project->id ? 'btn-muted' : 'btn-secondary'),
-                                        // 'class' => 'btn btn-muted btn-sm ml-1',
+                                        'class' => 'btn btn-sm ' . (Auth::user()->session_project == $project->id ? 'btn-muted' : 'btn-dark'),
+                                        'onclick' => "return confirm('Are you sure?')",
+                                    ]) !!}
+                                    {!! Form::close() !!}
+                                    {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'delete']) !!}
+                                    {!! Form::button('Delete', [
+                                        'type' => 'submit',
+                                        'class' => 'ml-1 btn btn-danger btn-sm',
                                         'onclick' => "return confirm('Are you sure?')",
                                     ]) !!}
                                     {!! Form::close() !!}
@@ -78,6 +82,7 @@
                         </div>
                     </div>
                 @endforeach
+
             </div>
 
 
