@@ -52,9 +52,17 @@
     ]) !!}
 </div>
 
-<div class="form-group col-sm-12 col-lg-12">
+<div class="form-group col-sm-6">
     {!! Form::label('image_result', 'Image : (opsional)') !!}
     {!! Form::file('image_result', ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('image_description', 'Image Description:') !!}
+    {!! Form::text('image_description', isset($bcResult) && $bcResult->hasMedia('bc_result') ? $bcResult->getMedia('bc_result')[0]->getCustomProperty('description') : null, [
+        'class' => 'form-control',
+        'maxlength' => 125,
+    ]) !!}
 </div>
 
 @if ($isEditPage && $bcResult->hasMedia('bc_result'))

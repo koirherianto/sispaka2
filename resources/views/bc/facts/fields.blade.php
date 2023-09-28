@@ -40,10 +40,19 @@
     {!! Form::number('value_fact', null, ['class' => 'form-control', 'step' => 'any', 'min' => '0', 'max' => '10']) !!}
 </div>
 
-<div class="form-group col-sm-12 col-lg-12">
+<div class="form-group col-sm-6">
     {!! Form::label('image_fact', 'Image : (opsional)') !!}
     {!! Form::file('image_fact', ['class' => 'form-control']) !!}
 </div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('image_description', 'Image Description:') !!}
+    {!! Form::text('image_description', isset($bcFact) && $bcFact->hasMedia('bc_fact') && count($bcFact->getMedia('bc_fact')) > 0 ? $bcFact->getMedia('bc_fact')[0]->getCustomProperty('description') : null, [
+        'class' => 'form-control',
+        'maxlength' => 125,
+    ]) !!}
+</div>
+
 
 @if ($isEditPage && $bcFact->hasMedia('bc_fact'))
     <div class="form-group col-sm-12 col-lg-12">

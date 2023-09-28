@@ -8,6 +8,8 @@ use App\Http\Controllers\AppBaseController;
 use App\Repositories\BcFactRepository;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 use Flash;
 use Auth;
 use DB;
@@ -74,11 +76,36 @@ class BcFactController extends AppBaseController
             $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
         }
 
+        if ($request->hasFile('image_fact')) {
+            $file = $request->file('image_fact');
+            
+            // Periksa ukuran file gambar
+            $imageSize = $file->getSize(); // Ukuran dalam bytes
+            
+            if ($imageSize > 1024 * 1024) { // Lebih dari 1MB (1MB = 1024 * 1024 bytes)
+                // Jika ukuran lebih dari 1MB, optimalkan dengan kualitas 50%
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->quality(50) // Kualitas 50%
+                    ->save();
+            } else {
+                // Jika ukuran kurang dari atau sama dengan 1MB, hanya lakukan konversi ke WebP
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save();
+            }
+        }
+        
+
         DB::transaction(function () use($request,$input) {
             $bcFact = $this->bcFactRepository->create($input);
             if ($request->hasFile('image_fact')) {
                 $file = $request->file('image_fact');
-                $bcFact->addMedia($file)->toMediaCollection('bc_fact');
+                $bcFact->addMedia($file)
+                ->withCustomProperties(['description' => $input['image_description']])
+                ->toMediaCollection('bc_fact');
             }    
         },3);
 
@@ -119,6 +146,8 @@ class BcFactController extends AppBaseController
             return redirect(route('bcFacts.index'));
         }
 
+        // return $bcFact->getMedia('bc_fact');
+
         $isEditPage = true;
         $projects = Project::all();
 
@@ -140,18 +169,48 @@ class BcFactController extends AppBaseController
         $input = $request->all();
         unset($input['backward_chaining_id']);
 
-        DB::transaction(function () use($bcFact,$request,$input,$id) {
+        if ($request->hasFile('image_fact')) {
+            $file = $request->file('image_fact');
+            
+            $imageSize = $file->getSize(); 
+            
+            if ($imageSize > 1024 * 1024) { 
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->quality(50) // Kualitas 50%
+                    ->save();
+            } else {
+                // Jika ukuran kurang dari atau sama dengan 1MB, hanya lakukan konversi ke WebP
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save();
+            }
+        }
+
+        DB::transaction(function () use ($bcFact, $request, $input, $id) {
             $bcFact = $this->bcFactRepository->update($input, $id);
             if ($request->hasFile('image_fact')) {
                 $file = $request->file('image_fact');
                 $bcFact->clearMediaCollection('bc_fact');
-                $bcFact->addMedia($file)->toMediaCollection('bc_fact');
-            }    
-        },3);
+                $bcFact->addMedia($file)
+                    ->withCustomProperties(['description' => $input['image_description']])
+                    ->toMediaCollection('bc_fact');
+            } elseif ($input['image_description']) {
+                // Jika tidak ada perubahan gambar, tetapi ada perubahan deskripsi, update deskripsi.
+                $media = $bcFact->getMedia('bc_fact')->first();
+                if ($media) {
+                    $media->setCustomProperty('description', $input['image_description']);
+                    $media->save();
+                }
+            }
+        }, 3);
 
         Flash::success('Bc Fact updated successfully.');
         return redirect(route('bcFacts.index'));
     }
+
 
     /**
      * Remove the specified BcFact from storage.

@@ -21,13 +21,21 @@
     <p>{{ $bcResult->code_name }}</p>
 </div>
 
-<!-- Image Result Field -->
-<div class="col-sm-12">
-    {!! Form::label('image_result', 'Image Result:') !!}
-    <p>
-        <img src="{{ $bcResult->getFirstMediaUrl('bc_result') }}" alt="{{ $bcResult->name }}" width="200">
-    </p>
-</div>
+@if ($bcResult->hasMedia('bc_result'))
+    <div class="col-sm-12">
+        {!! Form::label('image_description', 'Image Description:') !!}
+        <p>{{ $bcResult->getMedia('bc_result')[0]->getCustomProperty('description') }}</p>
+    </div>
+
+    <div class="form-group col-sm-12 col-lg-12">
+        {!! Form::label('image', 'Image :') !!}
+        <div class="">
+            <img src="{{ $bcResult->getFirstMediaUrl('bc_result') }}"
+                alt="{{ $bcResult->getMedia('bc_result')[0]->getCustomProperty('description') }}" 
+                class="img-thumbnail" style="max-width: 300px; max-height: 300px;">
+        </div>
+    </div>
+@endif
 
 <!-- Reason Field -->
 <div class="col-sm-12">

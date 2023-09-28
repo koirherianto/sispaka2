@@ -8,6 +8,8 @@ use App\Http\Controllers\AppBaseController;
 use App\Repositories\BcResultRepository;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 use Flash;
 use Auth;
 use DB;
@@ -69,14 +71,33 @@ class BcResultController extends AppBaseController
             $sessionProject = Auth::user()->session_project;
             $input['backward_chaining_id'] = Project::find($sessionProject)->backwardChainings->id;
         }
-
-        //bungkus db transaksion
         
         $bcResult = $this->bcResultRepository->create($input);
 
         if ($request->hasFile('image_result')) {
             $file = $request->file('image_result');
-            $bcResult->addMedia($file)->toMediaCollection('bc_result');
+            
+            $imageSize = $file->getSize(); 
+            
+            if ($imageSize > 1024 * 1024) { //jika lebih besar dari 1 mb
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->quality(50) 
+                    ->save();
+            } else {
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save();
+            }
+        }
+
+        if ($request->hasFile('image_result')) {
+            $file = $request->file('image_result');
+            $bcResult->addMedia($file)
+            ->withCustomProperties(['description' => $input['image_description']])
+            ->toMediaCollection('bc_result');
         }
 
         Flash::success('Bc Result saved successfully.');
@@ -137,8 +158,35 @@ class BcResultController extends AppBaseController
 
         if ($request->hasFile('image_result')) {
             $file = $request->file('image_result');
+            
+            $imageSize = $file->getSize(); 
+            
+            if ($imageSize > 1024 * 1024) { 
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->quality(50)
+                    ->save();
+            } else {
+                Image::load($file)
+                    ->optimize()
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save();
+            }
+        }
+
+        if ($request->hasFile('image_result')) {
+            $file = $request->file('image_result');
             $bcResult->clearMediaCollection('bc_result');
-            $bcResult->addMedia($file)->toMediaCollection('bc_result');
+            $bcResult->addMedia($file)
+                ->withCustomProperties(['description' => $input['image_description']])
+                ->toMediaCollection('bc_result');
+        } elseif ($input['image_description']) { // Jika tidak ada perubahan gambar, tetapi ada perubahan deskripsi, update deskripsi.
+            $media = $bcResult->getMedia('bc_result')->first();
+            if ($media) {
+                $media->setCustomProperty('description', $input['image_description']);
+                $media->save();
+            }
         }
 
         $bcResult = $this->bcResultRepository->update($input, $id);
@@ -146,6 +194,7 @@ class BcResultController extends AppBaseController
         Flash::success('Bc Result updated successfully.');
         return redirect(route('bcResults.index'));
     }
+
 
     /**
      * Remove the specified BcResult from storage.
