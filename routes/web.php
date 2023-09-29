@@ -7,8 +7,11 @@ use App\Http\Controllers\BC\BcSettingController;
 
 
 Auth::routes();
-Route::get('/', function () {
-    return view('landing.index');
+
+Route::get('/', [App\Http\Controllers\LandingController::class, 'index']);
+
+Route::get('/landing', function () {
+    return view('landing.index2');
 });
 Route::get('/inner-page', function () {
     return view('landing.inner-page');
