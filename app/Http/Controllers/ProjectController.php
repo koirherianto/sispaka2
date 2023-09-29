@@ -84,6 +84,8 @@ class ProjectController extends AppBaseController
             return redirect(route('projects.create'));
         }
 
+        $input['slug'] = Project::createUniqueSlug($input['title']);
+        
         DB::transaction(function () use($input) {
             $project = $this->projectRepository->create($input);
             $project->users()->sync($input['user_id']);

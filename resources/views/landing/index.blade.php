@@ -63,9 +63,7 @@
                                             style="border-radius: 10px;">
                                     </div>
                                     <h4> <a href="">{{ $project->title }}</a> </h4>
-                                    <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
-                                        Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
-                                        excepturi</p>
+                                    <p>{{ $project->short_description }}</p>
                                     <div class="btn-wrap mt-2">
                                         <strong>
                                             <a href="/projects/{{ $project->id }}" class="btn-buy">Created By
@@ -76,6 +74,7 @@
                                         </strong>
                                     </div>
                                 </div>
+                            </div>
                         @endforeach
                     </div>
 

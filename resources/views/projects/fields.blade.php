@@ -35,6 +35,29 @@
     ]) !!}
 </div>
 
+<input type="hidden" value="-" name="slug">
+
+<!-- short_description Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('short_description', 'Utility Description: Maxi 160 characters' ) !!}
+    {!! Form::text('short_description', null, [
+        'class' => 'form-control',
+        'required',
+        'maxlength' => 160,
+    ]) !!}
+</div>
+
+<!-- tag_keyword Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tag_keyword', 'Tag Keyword: Pisahkan dengan koma') !!}
+    {!! Form::text('tag_keyword', null, [
+        'class' => 'form-control',
+        'required',
+        'maxlength' => 160,
+        'placeholder' => ' Contoh: sistem pakar, penyakit pada jagung ... ',
+    ]) !!}
+</div>
+
 @if (!$isEditPage)
 <!-- Method -->
     <div class="form-group col-sm-7">
@@ -48,10 +71,11 @@
     </div>
 @endif
 
-<!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('description', 'Description: - Jangan Pakai Judul') !!}
-    <textarea name="description" id="description"  class="form-control"> {!! $project->description !!}</textarea>
+    {!! Form::label('description', 'Blog: - Jangan Pakai Judul') !!}
+    <textarea name="description" id="description" class="form-control">
+        {!! isset($project) ? $project->description : '' !!}
+    </textarea>
 </div>
 
 

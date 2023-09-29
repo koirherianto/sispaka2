@@ -30,14 +30,14 @@ class User extends Authenticatable
     ];
 
     public static array $rules = [
-        'name' => 'required|string|max:255|string|max:255',
-        'email' => 'nullable|string|max:255|nullable|string|max:255',
-        'email_verified_at' => 'nullable|nullable',
-        'password' => 'required|string|max:255|string|max:255',
-        'remember_token' => 'nullable|string|max:100|nullable|string|max:100',
-        'created_at' => 'nullable|nullable',
-        'updated_at' => 'nullable|nullable',
-        'deleted_at' => 'nullable|nullable'
+        'name' => 'required|string|max:255',
+        'email' => 'nullable|string|max:255',
+        'email_verified_at' => 'nullable',
+        'password' => 'required|string|max:255',
+        'remember_token' => 'nullable|string|max:100',
+        'created_at' => 'nullable',
+        'updated_at' => 'nullable',
+        'deleted_at' => 'nullable'
     ];
 
     public function sessionProjecthasBackwardChainingMethod(): bool
