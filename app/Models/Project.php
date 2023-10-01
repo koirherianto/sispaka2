@@ -58,6 +58,42 @@ class Project extends Model implements HasMedia
         return $slug;
     }
 
+    // app/Models/Project.php
+
+    public function getImageUrl()
+    {
+        // Gantilah 'project_image' dengan nama koleksi media Anda
+        $media = $this->getFirstMedia('image_project');
+        
+        if ($media) {
+            return $media->getUrl();
+        }
+
+        // Jika tidak ada gambar, Anda dapat mengembalikan URL gambar default
+        // atau URL gambar placeholder jika ada
+        // Contoh:
+        // return asset('images/default-project-image.jpg');
+        // atau
+        // return 'https://via.placeholder.com/300x100';
+        
+        return null;
+    }
+
+    
+
+    public function validateImageLandscape(Media $media)
+    {
+        $width = $media->width();
+        $height = $media->height();
+
+        if ($width < $height) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     public function backwardChainings(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(\App\Models\BC\BackwardChaining::class, 'project_id');

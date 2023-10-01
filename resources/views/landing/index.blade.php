@@ -55,28 +55,28 @@
 
                     <div class="row gy-4">
                         @foreach ($projects as $project)
-                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in"
-                                data-aos-delay="100">
-                                <div class="icon-box iconbox-blue">
-                                    <div class="icon">
-                                        <img src="https://picsum.photos/300/100" alt="Gambar Acak"
-                                            style="border-radius: 10px;">
-                                    </div>
-                                    <h4> <a href="">{{ $project->title }}</a> </h4>
-                                    <p>{{ $project->short_description }}</p>
-                                    <div class="btn-wrap mt-2">
-                                        <strong>
-                                            <a href="/projects/{{ $project->id }}" class="btn-buy">Created By
-                                                @foreach ($project->users as $user)
-                                                    {{ $user->name }}{{ !$loop->last ? ', ' : '' }}
-                                                @endforeach
-                                            </a>
-                                        </strong>
-                                    </div>
+                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="icon-box iconbox-blue">
+                                <div class="icon">
+                                    <img src="{{ $project->getImageUrl() }}" alt="{{ $project->title }}"
+                                        style="width: 300px; height: 100px; object-fit: cover; border-radius: 50px;">
+                                </div>
+                                <h4> <a href="">{{ $project->title }}</a> </h4>
+                                <p>{{ $project->short_description }}</p>
+                                <div class="btn-wrap mt-2">
+                                    <strong>
+                                        <a href="/projects/{{ $project->id }}" class="btn-buy">Created By
+                                            @foreach ($project->users as $user)
+                                                {{ $user->name }}{{ !$loop->last ? ', ' : '' }}
+                                            @endforeach
+                                        </a>
+                                    </strong>
                                 </div>
                             </div>
+                        </div>
                         @endforeach
                     </div>
+                    
 
 
                 </div>

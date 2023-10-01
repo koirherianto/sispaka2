@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Repositories\ProjectRepository;
 use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\AppBaseController;
-use App\Repositories\ProjectRepository;
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Method;
 use App\Models\Project;
 use App\Models\BC\BcFact;
-use App\Models\Method;
 use App\Models\BC\BackwardChaining;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as Mediax;
 use DB;
-use Flash;
 use Auth;
+use Flash;
 
 class ProjectController extends AppBaseController
 {
@@ -33,7 +36,9 @@ class ProjectController extends AppBaseController
     {
         if (Auth::user()->hasRole('super-admin')) {
             $projects = $this->projectRepository->paginate(10);
-        }else{
+        }
+        
+        if (Auth::user()->hasRole(['individu','institution'])) {
             $projects = Auth::user()->projects()->paginate(10);
         }
 
@@ -70,11 +75,9 @@ class ProjectController extends AppBaseController
     public function store(CreateProjectRequest $request)
     {
         $input = $request->all();
-        // return $input;
         $input['status_publish'] = 'not_publish';
 
-        //jika dia bukan super admin, maka user_id diisi dengan id user yang sedang login
-        if (!Auth::user()->hasRole('super-admin')) {
+        if (Auth::user()->hasRole(['individu','institution'])) {
             $input['user_id'] = auth()->user()->id;
         }
 
@@ -86,17 +89,17 @@ class ProjectController extends AppBaseController
 
         $input['slug'] = Project::createUniqueSlug($input['title']);
         
-        DB::transaction(function () use($input) {
+        DB::transaction(function () use ($input, $request) {
             $project = $this->projectRepository->create($input);
             $project->users()->sync($input['user_id']);
-
+        
             // Mengelola metode yang dipilih (dari checkbox)
             $project->methods()->sync($input['method_ids']);
-
             BackwardChaining::create([
                 'project_id' => $project->id
             ]);
-        },3);
+        }, 3);
+        
 
         Flash::success('Project saved successfully.');
         return redirect(route('projects.index'));
@@ -149,27 +152,66 @@ class ProjectController extends AppBaseController
     public function update($id, UpdateProjectRequest $request)
     {
         $project = $this->projectRepository->find($id);
-
         if (empty($project)) {
             Flash::error('Project not found');
             return redirect(route('projects.index'));
         }
 
         $input = $request->all();
+        $input['slug'] = Project::createUniqueSlug($input['title']);
 
-        // unset($input['status_publish']);
+        if ($input['status_publish'] === 'publish') {
+            if (empty($input['title']) && empty($input['short_description']) && empty($input['tag_keyword']) && empty($input['description']) && empty($input['image_description'])) {
+                Flash::error('Fill all Field');
+                return redirect(route('projects.edit', $id));
+            }
+        }
         
-        if (!Auth::user()->hasRole('super-admin')) {
+        if (Auth::user()->hasRole(['individu','institution'])) {
             $input['user_id'] = auth()->user()->id;
         }
 
-        DB::transaction(function () use($input,$id) {
+        // Validasi gambar harus berbentuk landscape
+        if ($request->hasFile('image_project')) {
+            $file = $request->file('image_project');
+            list($width, $height) = getimagesize($file);
+            if ($width < $height) {
+                Flash::error('Image must be in landscape format (width > height)');
+                return redirect(route('projects.edit', $id));
+            }
+        }
+
+        DB::transaction(function () use ($input, $id, $request) {
             $project = $this->projectRepository->update($input, $id);
             $project->users()->sync($input['user_id']);
-        },3);
+        
+            // Mencari media dengan deskripsi yang cocok
+            $media = $project->getFirstMedia('image_project', function ($file) use ($input) {
+                return $file->getCustomProperty('description') === $input['image_description'];
+            });
+        
+            if ($request->hasFile('image_project')) {
+                // Jika ada file yang diunggah, Anda dapat memprosesnya di sini
+                $project->clearMediaCollection('image_project');
+                $file = $request->file('image_project');
+                $file = $this->optimizeAndConvertToWebP($file);
+                $media = $project->addMediaFromRequest('image_project')
+                    ->withCustomProperties(['description' => $input['image_description']])
+                    ->toMediaCollection('image_project');
+            } elseif ($media) {
+                // Jika tidak ada file yang diunggah, tetapi ada media dengan deskripsi yang cocok
+                // Anda hanya perlu mengubah deskripsinya
+                $media->setCustomProperty('description', $input['image_description']);
+                $media->save();
+            }
+        }, 3);
 
+        if (!$project->getFirstMedia('image_project')) {
+            Flash::error('Image Project is required');
+            return redirect(route('projects.edit', $id));
+        }
+        
         Flash::success('Project updated successfully.');
-
         return redirect(route('projects.index'));
     }
 
@@ -241,11 +283,6 @@ class ProjectController extends AppBaseController
         return redirect(route('projects.index'));
     }
 
-    function settingPage()  {
-
-        return view('projects.edit', compact('users'));
-    }
-
     private function statusPublishEnum($enum) : String {
         
         if ($enum === 'not_publish') {
@@ -257,4 +294,32 @@ class ProjectController extends AppBaseController
 
         return '';
     }
+
+
+    private function optimizeAndConvertToWebP($file, $quality = 50)
+    {
+        $imageSize = $file->getSize();
+        $image = Image::load($file)->optimize()->format(Manipulations::FORMAT_WEBP);
+
+        // $image->fit(Manipulations::FIT_FILL, 1500, 500);
+        
+        if ($imageSize > 1024 * 1024) { // Lebih besar dari 1MB
+            $image->quality($quality);
+        }
+
+        return $image->save();
+    }
+
+    public function validateImageLandscape(Mediax $media) : bool
+    {
+        $width = $media->width();
+        $height = $media->height();
+
+        if ($width < $height) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

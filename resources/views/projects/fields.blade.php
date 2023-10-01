@@ -1,4 +1,4 @@
-
+<input type="hidden" value="-" name="slug">
 
 @role('super-admin')
     <div class="form-group col-sm-6">
@@ -7,7 +7,7 @@
     </div>
 @endrole
 
-@role('individual')
+@role(['individual', 'institution'])
     <input type="hidden" value="-" name="user_id">
 @endrole
 
@@ -35,11 +35,9 @@
     ]) !!}
 </div>
 
-<input type="hidden" value="-" name="slug">
-
 <!-- short_description Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('short_description', 'Utility Description: Maxi 160 characters' ) !!}
+    {!! Form::label('short_description', 'Utility Description: Maxi 160 characters') !!}
     {!! Form::text('short_description', null, [
         'class' => 'form-control',
         'required',
@@ -58,14 +56,41 @@
     ]) !!}
 </div>
 
+@if ($isEditPage)
+    <div class="form-group col-sm-6">
+        {!! Form::label('image_project', 'Image :') !!}
+        {!! Form::file('image_project', ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group col-sm-6">
+        {!! Form::label('image_description', 'Image Description:') !!}
+        {!! Form::text('image_description', isset($project) && $project->hasMedia('image_project') && count($project->getMedia('image_project')) > 0 ? $project->getMedia('image_project')[0]->getCustomProperty('description') : null, [
+            'class' => 'form-control',
+            'maxlength' => 125,
+        ]) !!}
+    </div>
+
+    @if ($isEditPage && $project->hasMedia('image_project'))
+        <div class="form-group col-sm-12 col-lg-12">
+            <label>Current Image:</label>
+            <div class="">
+                <img src="{{ $project->getMedia('image_project')[0]->getUrl() }}" alt="Current Image" class="img-thumbnail"  style="max-width: 300px; max-height: 300px;">
+            </div>
+        </div>
+    @endif
+@endif
+
 @if (!$isEditPage)
-<!-- Method -->
+    <!-- Method hanya saat create, tidak bisa di ubah-->
     <div class="form-group col-sm-7">
         {!! Form::label('method_id', 'Method: (its cannot change later)') !!}
         @foreach ($methods as $method)
             <div class="form-check">
-                {!! Form::checkbox('method_ids[]', $method->id, false, ['class' => 'form-check-input', 'id' => 'method_id_'.$method->id]) !!}
-                {!! Form::label('method_id_'.$method->id, $method->name, ['class' => 'form-check-label']) !!}
+                {!! Form::checkbox('method_ids[]', $method->id, false, [
+                    'class' => 'form-check-input',
+                    'id' => 'method_id_' . $method->id,
+                ]) !!}
+                {!! Form::label('method_id_' . $method->id, $method->name, ['class' => 'form-check-label']) !!}
             </div>
         @endforeach
     </div>
