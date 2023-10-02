@@ -1,11 +1,40 @@
-<!doctype html>
+@extends('layouts.landing')
+
+@section('landing-content')
+    <main id="main">
+        <section class="inner-page">
+            <div class="container">
+                <h1>{{ $project->title }}</h1> 
+
+                @foreach ($project->getMedia('image_project') as $media)
+                    <div class="swiper-slide my-3">
+                        <img src="{{ $media->getUrl() }}" alt="{{ $project->title }}" class="img-fluid img-thumbnail"
+                            style="max-width: 300px; max-height: 300px;">
+                    </div>
+                @endforeach
+
+                <strong>
+                    <p>Created By:
+                        @foreach ($project->users as $user)
+                            {{ $user->name }}{{ !$loop->last ? ', ' : '' }}
+                        @endforeach
+                    </p>
+                </strong>
+
+                {!! html_entity_decode($project->description) !!}
+            </div>
+        </section>
+    </main>
+@endsection
+
+{{-- <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link rel="icon" type="image/png" sizes="16x16"  href="/assets/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
@@ -30,37 +59,7 @@
 </head>
 
 <body class="container bg-light">
-    <b>
-      <nav class="navbar navbar-expand-lg bg-info">
-        <div class="container-fluid">
-            <a class="navbar-brand text-light" href="/">{{ config('app.name') }}</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
-            </div>
-    
-            <!-- Tombol di sisi kanan -->
-            <div class="ml-auto"> <!-- Ini akan membuat elemen berada di sisi kanan -->
-                <a href="/login" class="btn btn-dark">Login</a>
-                <a href="/register" class="btn btn-light">Register</a>
-            </div>
-        </div>
-    </nav>
-    
-    </b>
+
 
     <!-- Konten lainnya di atas jika diperlukan -->
 
@@ -108,4 +107,4 @@
     </script>
 </body>
 
-</html>
+</html> --}}

@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>{{ config('app.name') }}: Buat Sistem Pakar</title>
-    <meta name="description" content="Buat Sistem Pakar Anda Sendiri: Buatlah keputusan yang lebih cerdas dan efisien dengan aplikasi kami yang memungkinkan Anda untuk merancang sistem pakar khusus tanpa kode." >
-    <meta name="keywords" content="sistem pakar, kecerdasan buatan, pengambilan keputusan, solusi cerdas, aplikasi pengembangan sistem pakar, buat sistem pakar, platform sistem pakar">
+    <title> {{ $seoTitle }} - {{ config('app.name') }}</title>
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $seoKeyword }} ">
 
     <!-- Favicons -->
     <link href="/assets/img/favicon.png" rel="icon">
@@ -27,14 +27,16 @@
     <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    {{-- <link href=" /assets/css/style.css" rel="stylesheet"> --}}
 </head>
 <body>
 
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="/">Sispaka</a></h1>
+            <h1 class="logo"><a href="/">{{ config('app.name') }}</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -163,7 +165,7 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-    <div id="preloader"></div>
+    {{-- <div id="preloader"></div> --}}
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -175,7 +177,11 @@
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+    {{-- <script src="assets/js/main.js"></script> --}}
+    <script src="asset('assets/js/main.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script> --}}
 
 </body>
 
