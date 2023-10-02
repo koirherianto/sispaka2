@@ -87,7 +87,13 @@ class ProjectController extends AppBaseController
             return redirect(route('projects.create'));
         }
 
+        // jika slug sama dengan slug yang sudah ada
         $input['slug'] = Project::createUniqueSlug($input['title']);
+        if ($input['slug'] != $currentSlug) {
+            // Slug berbeda, maka perbarui slug proyek
+            $project->slug = $input['slug'];
+            $project->save();
+        }
         
         DB::transaction(function () use ($input, $request) {
             $project = $this->projectRepository->create($input);
@@ -163,6 +169,13 @@ class ProjectController extends AppBaseController
         if ($input['status_publish'] === 'publish') {
             if (empty($input['title']) && empty($input['short_description']) && empty($input['tag_keyword']) && empty($input['description']) && empty($input['image_description'])) {
                 Flash::error('Fill all Field');
+                return redirect(route('projects.edit', $id));
+            }
+
+            $jumlahKata = str_word_count($input['description']);
+
+            if ($jumlahKata < 500) {
+                Flash::error('Blog must be at least 500 words');
                 return redirect(route('projects.edit', $id));
             }
         }

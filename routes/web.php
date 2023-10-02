@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BC\TryBcController;
 use App\Http\Controllers\BC\BcSettingController;
+use App\Http\Controllers\LandingController;
 
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\LandingController::class, 'index']);
+Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/landing', function () {
     return view('landing.index2');
@@ -19,6 +20,8 @@ Route::get('/inner-page', function () {
 Route::get('/portfolio-details', function () {
     return view('landing.portfolio-details');
 });
+
+Route::get('/expert-system/{slug}', [LandingController::class, 'expertSystem']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

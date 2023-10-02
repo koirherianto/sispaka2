@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Inner page - Index</title>
+    <title>{{ config('app.name') }}: Buat Sistem Pakar</title>
     <meta name="description" content="Buat Sistem Pakar Anda Sendiri: Buatlah keputusan yang lebih cerdas dan efisien dengan aplikasi kami yang memungkinkan Anda untuk merancang sistem pakar khusus tanpa kode." >
     <meta name="keywords" content="sistem pakar, kecerdasan buatan, pengambilan keputusan, solusi cerdas, aplikasi pengembangan sistem pakar, buat sistem pakar, platform sistem pakar">
 
