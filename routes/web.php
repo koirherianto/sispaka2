@@ -9,11 +9,11 @@ use App\Http\Controllers\LandingController;
 
 Auth::routes();
 
-Route::get('/', [LandingController::class, 'index']);
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
-Route::get('/landing', function () {
-    return view('landing.index2');
-});
+// Route::get('/landing', function () {
+//     return view('landing.index2');
+// });
 Route::get('/inner-page', function () {
     return view('landing.inner-page');
 });
@@ -21,7 +21,9 @@ Route::get('/portfolio-details', function () {
     return view('landing.portfolio-details');
 });
 
-Route::get('/expert-system/{slug}', [LandingController::class, 'expertSystem']);
+Route::get('/expert-system/{slug}', [LandingController::class, 'blog']);
+Route::post('/expert-system/{slug}/backward-chaining', [LandingController::class, 'backwardChaining'])->name('expert-system.backward-chaining');;
+Route::post('/expert-system/{slug}/backward-chaining-result', [LandingController::class, 'backwardChainingResults'])->name('expert-system.backward-chaining-result');;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

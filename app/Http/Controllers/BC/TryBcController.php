@@ -30,53 +30,7 @@ class TryBcController extends Controller
 
         return view('bc.try.select_questions')->with('bcQuestions', $bcQuestions);
     }
-
-    // yang ketiga tampilkan hasil dari pertanyaan yang dipilih
-    // public function results(Request $request) {
-    //     //semua pertanyaan
-    //     $bcQuestions = BcQuestion::find($request->bcQuestion[0])->bcResult->bcQuestions->load('bcFact');
-    //     //pertanyaan yang dipilih
-    //     $bcQuestionCheckBoxs = [];
-    //     foreach ($request->bcQuestion as $key => $value) {
-    //         $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
-    //         $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
-    //     }
-
-
-    //     if (empty($request->bcQuestion)) {
-    //         Flash::error('Choose at least one question');
-    //         return redirect(route('trybc.selectResult'));
-    //     }
-
-    //     $bcFactsValueAll = 0;
-    //     $bcQuestions = BcQuestion::find($request->bcQuestion[0])->bcResult->bcQuestions->load('bcFact');
-    //     foreach ($bcQuestions as $value) {
-    //         $bcFactsValueAll += $value->bcFact->value_fact;
-    //     }
-        
-
-    //     $bcQuestionCheckBoxs = [];
-    //     $bcFactsValue = 0;
-    //     foreach ($request->bcQuestion as $key => $value) {
-    //         $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
-    //         $bcFactsValue += $bcQuestionCheckBox->bcFact->value_fact;
-    //         $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
-    //     }
-
-    //     // 40 = 100
-    //     // 10,5 = 
-
-    //     return [
-    //         'semuaQuestion' => $bcQuestions,
-    //         'bcQuestionCheckBoxs' => $bcQuestionCheckBoxs,
-    //         'bcFactsValue' => $bcFactsValue,
-    //         'hasil' => (100 * $bcFactsValue) / $bcFactsValueAll ,
-    //     ];
-
-
-    //     return $bcQuestionCheckBoxs;
-    // }
-
+    
     public function results(Request $request) {
         // diagnosa penyakit / result
         $bcResult = BcQuestion::find($request->bcQuestion[0])->bcResult;

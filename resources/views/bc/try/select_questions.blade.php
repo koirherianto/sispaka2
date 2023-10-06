@@ -16,7 +16,6 @@
             </h1>
 
             {!! Form::open(['route' => 'trybc.results', 'method' => 'post']) !!}
-            @include('flash::message')
             <table class="table">
                 <thead>
                     <tr>
