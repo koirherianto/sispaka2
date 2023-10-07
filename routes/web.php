@@ -20,10 +20,8 @@ Route::get('/inner-page', function () {
 Route::get('/portfolio-details', function () {
     return view('landing.portfolio-details');
 });
-
-Route::get('/expert-system/{slug}', [LandingController::class, 'blog']);
-Route::post('/expert-system/{slug}/backward-chaining', [LandingController::class, 'backwardChaining'])->name('expert-system.backward-chaining');;
-Route::post('/expert-system/{slug}/backward-chaining-result', [LandingController::class, 'backwardChainingResults'])->name('expert-system.backward-chaining-result');;
+Route::get('/expert-system/{slug}', [LandingController::class, 'blog'])->name('expert-system.blog');
+Route::post('/expert-system/{slug}/backward-chaining', [LandingController::class, 'backwardChaining'])->name('expert-system.backward-chaining');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

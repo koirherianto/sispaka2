@@ -87,7 +87,7 @@ class ProjectController extends AppBaseController
             return redirect(route('projects.create'));
         }
 
-        // jika slug sama dengan slug yang sudah ada
+        // jika slug ada yang sama dengan slug yang sudah ada
         $input['slug'] = Project::createUniqueSlug($input['title']);
         if ($input['slug'] != $currentSlug) {
             // Slug berbeda, maka perbarui slug proyek
@@ -164,7 +164,12 @@ class ProjectController extends AppBaseController
         }
 
         $input = $request->all();
-        $input['slug'] = Project::createUniqueSlug($input['title']);
+         // Cek apakah title berubah
+        if ($input['title'] !== $project->title) {
+            $input['slug'] = Project::createUniqueSlug($input['title']);
+        }else{
+            $input['slug'] = $project->slug ?? Project::createUniqueSlug($input['title']);
+        }
 
         if ($input['status_publish'] === 'publish') {
             if (empty($input['title']) && empty($input['short_description']) && empty($input['tag_keyword']) && empty($input['description']) && empty($input['image_description'])) {

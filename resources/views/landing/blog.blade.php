@@ -50,7 +50,6 @@
                     {{-- input hidden slug --}}
                     {!! Form::hidden('slug', $project->slug) !!}
                     <div class="form-group col-sm-6 mt-3">
-                        {!! Form::label('bc_result_id', 'Result:') !!}
                         {!! Form::select('bc_result_id', $bcResults->pluck('name', 'id'), null, ['class' => 'form-control', 'required']) !!}
                     </div>
 

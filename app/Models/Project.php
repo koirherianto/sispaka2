@@ -58,6 +58,13 @@ class Project extends Model implements HasMedia
         return $slug;
     }
 
+    public static function createSlug($title) : string
+    {
+        $slug = Str::slug($title);
+
+        return $slug;
+    }
+
     // app/Models/Project.php
 
     public function getImageUrl()

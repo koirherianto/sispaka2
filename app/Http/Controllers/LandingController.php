@@ -22,7 +22,7 @@ class LandingController extends Controller
         $project = Project::where('slug',$slug)->first();
 
         if (empty($project)) {
-            Flash::error('Choose at least one question');
+            Flash::error('dont have a project');
             return redirect(route('landing'));
         }
 
@@ -36,6 +36,7 @@ class LandingController extends Controller
     }
 
     public function backwardChaining(Request $request) {
+
         $bcQuestions = BcQuestion::where('bc_result_id',$request->bc_result_id)->get();
 
         $project = Project::where('slug',$request->slug)->first();
@@ -44,9 +45,48 @@ class LandingController extends Controller
         $seoKeyword = $project->tag_keyword;
         $seoDescription = $project->short_description; 
 
-        
+        $isResult = false;
 
-        return view('landing.backward-chaining',compact('project','bcQuestions','seoDescription','seoTitle','seoKeyword'));
+        if ($request->isResult == true) {
+            if (empty($request->bcQuestion[0])) {
+                Flash::error('Choose at least one question');
+                return redirect(route('expert-system.backward-chaining', $request->slug));
+            }
+            $isResult = true;
+
+            $bcResult = BcQuestion::find($request->bcQuestion[0])->bcResult;
+            // Semua pertanyaan
+            $bcQuestions = $bcResult->bcQuestions->load('bcFact');
+            //all question count
+            $bcQuestionsCount = count($bcQuestions);
+            
+            // Pertanyaan yang dipilih
+            $bcQuestionCheckBoxs = [];
+            foreach ($request->bcQuestion as $key => $value) {
+                $bcQuestionCheckBox = BcQuestion::find($value)->load('bcFact');
+                $bcQuestionCheckBoxs[] = $bcQuestionCheckBox;
+            }
+            
+            // Hitung total nilai faktor dari pertanyaan yang dicentang
+            $totalFaktorDicentang = 0;
+            foreach ($bcQuestionCheckBoxs as $question) {
+                $totalFaktorDicentang += $question->bcFact->value_fact;
+            }
+            
+            // Tentukan nilai faktor maksimal (disesuaikan dengan kebutuhan Anda)
+            // $nilaiFaktorMaksimal = 100; // Misalnya, 100 adalah nilai faktor maksimal
+            $nilaiFaktorMaksimal = $bcQuestionsCount * 10; // Misalnya, 100 adalah nilai faktor maksimal
+            
+            // Hitung persentase kemungkinan
+            $persentaseKemungkinan = ($totalFaktorDicentang / $nilaiFaktorMaksimal) * 100;
+            
+            // Tampilkan hasil kepada pengguna
+            $diagnosis = "Sapi kena penyakit " . $bcResult->name ." kemungkinan " . number_format($persentaseKemungkinan, 2) . "%";
+        
+            return view('landing.backward-chaining',compact('isResult', 'project','diagnosis','bcResult','bcQuestions','seoDescription','seoTitle','seoKeyword', 'request'));
+        }
+
+        return view('landing.backward-chaining',compact('isResult','project','bcQuestions','seoDescription','seoTitle','seoKeyword', 'request'));
     }
 
     public function backwardChainingResults(Request $request) {
