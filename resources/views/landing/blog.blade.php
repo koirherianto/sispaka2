@@ -11,8 +11,8 @@
 
                 @foreach ($project->getMedia('image_project') as $media)
                     <div class="swiper-slide my-3">
-                        <img src="{{ $media->getUrl() }}" alt="{{ $project->title }}" class="img-fluid img-thumbnail"
-                            style="max-width: 300px; max-height: 300px;">
+                        <img src="{{ $media->getUrl() }}" alt="{{ $media->getCustomProperty('description') }}"
+                            class="img-fluid img-thumbnail" style="max-width: 300px; max-height: 300px;">
                     </div>
                 @endforeach
 
@@ -42,20 +42,20 @@
                 @endif
 
 
-                <h2 class="mt-5" >Choise Diagnoses</h2>
+                <h2 class="mt-5">Choise Diagnoses</h2>
 
                 {!! Form::open(['route' => ['expert-system.backward-chaining', $project->slug]]) !!}
 
 
-                    {{-- input hidden slug --}}
-                    {!! Form::hidden('slug', $project->slug) !!}
-                    <div class="form-group col-sm-6 mt-3">
-                        {!! Form::select('bc_result_id', $bcResults->pluck('name', 'id'), null, ['class' => 'form-control', 'required']) !!}
-                    </div>
+                {{-- input hidden slug --}}
+                {!! Form::hidden('slug', $project->slug) !!}
+                <div class="form-group col-sm-6 mt-3">
+                    {!! Form::select('bc_result_id', $bcResults->pluck('name', 'id'), null, ['class' => 'form-control', 'required']) !!}
+                </div>
 
-                    <div class="card-footer mt-2">
-                        {!! Form::submit('Next', ['class' => 'btn btn-dark']) !!}
-                    </div>
+                <div class="card-footer mt-2">
+                    {!! Form::submit('Next', ['class' => 'btn btn-dark']) !!}
+                </div>
 
                 {!! Form::close() !!}
 

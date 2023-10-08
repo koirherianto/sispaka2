@@ -14,6 +14,14 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 // Route::get('/landing', function () {
 //     return view('landing.index2');
 // });
+
+// storage link
+// Route::get('/storage-link', function () {
+//     $targetFolder = storage_path('app/public');
+//     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+//     symlink($targetFolder, $linkFolder);
+// });
+
 Route::get('/inner-page', function () {
     return view('landing.inner-page');
 });

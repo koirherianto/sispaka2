@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th>Pertanyaan</th>
+                            <th>Image</th>
                             <th>Jawaban</th>
                         </tr>
                     </thead>
@@ -25,20 +26,34 @@
                         {!! Form::hidden('slug', $project->slug) !!}
                         {!! Form::hidden('isResult', true) !!}
                         @foreach ($bcQuestions as $bcQuestion)
-                        <tr>
-                            <td>{{ $bcQuestion->question }}</td>
-                            <td>
-                                <div class="form-check">
-                                    {!! Form::checkbox('bcQuestion[]', $bcQuestion->id, is_array($request->bcQuestion) && in_array($bcQuestion->id, $request->bcQuestion), [
-                                        'class' => 'form-check-input',
-                                        'id' => 'bcQuestion-' . $bcQuestion->id,
-                                    ]) !!}
-                                    <label class="form-check-label" for="bcQuestion-{{ $bcQuestion->id }}"></label>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    
+                            <tr>
+                                <td>{{ $bcQuestion->question }}</td>
+                                <td>
+                                    @if ($bcQuestion->bcFact->hasMedia('bc_fact'))
+                                        <img src="{{ $bcQuestion->bcFact->getFirstMediaUrl('bc_fact') }}"
+                                            alt="{{ $bcQuestion->bcFact->getMedia('bc_fact')[0]->getCustomProperty('description') }}"
+                                            class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        {!! Form::checkbox(
+                                            'bcQuestion[]',
+                                            $bcQuestion->id,
+                                            is_array($request->bcQuestion) && in_array($bcQuestion->id, $request->bcQuestion),
+                                            [
+                                                'class' => 'form-check-input',
+                                                'id' => 'bcQuestion-' . $bcQuestion->id,
+                                            ],
+                                        ) !!}
+                                        <label class="form-check-label" for="bcQuestion-{{ $bcQuestion->id }}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+
                     </tbody>
                 </table>
                 {!! Form::submit('Hitung', ['class' => 'btn btn-dark']) !!}
@@ -74,6 +89,18 @@
                                     </ul>
                                 </div>
                             </div>
+                            @if ($bcResult->hasMedia('bc_result'))
+                                <div class="card mt-2">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Image Result</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <img src="{{ $bcResult->getFirstMediaUrl('bc_result') }}"
+                                            alt="{{ $bcResult->getMedia('bc_result')[0]->getCustomProperty('description') }}"
+                                            class="img-thumbnail mt-2" style="max-width: 250px; max-height: 250px;">
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -88,18 +115,18 @@
         document.getElementById('bcForm').addEventListener('submit', function(event) {
             var checkboxes = document.querySelectorAll('input[name="bcQuestion[]"]');
             var isChecked = false;
-    
+
             checkboxes.forEach(function(checkbox) {
                 if (checkbox.checked) {
                     isChecked = true;
                 }
             });
-    
+
             if (!isChecked) {
                 event.preventDefault(); // Mencegah pengiriman formulir
                 alert('Pilih setidaknya satu pertanyaan.');
             }
         });
     </script>
-    
+
 @endsection
