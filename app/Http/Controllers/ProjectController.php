@@ -298,8 +298,57 @@ class ProjectController extends AppBaseController
         $user = Auth::user();
         $user->session_project = $id;
         $user->save();
+        Flash::success('Change project successfully');
         return redirect(route('projects.index'));
     }
+
+    function colaborator($projectId) {
+        $project = Project::findOrFail($projectId);
+        $users = $project->users;
+        return view('projects.colaborator', compact('users', 'project'));
+    }
+
+    function tambahColaborator(Request $request) {
+        // apakah users memiliki email
+        $user = User::where('email', $request->email)->first();
+        // jika tidak ada akun dengan email ini
+        if (empty($user)) {
+            Flash::error('this email is not registered');
+            return redirect(route('projects.index'));
+        }
+
+        $project = Project::findOrFail($request->project_id);
+        $projectUsers = $project->users;
+
+        foreach ($projectUsers as $projectUser) {
+            // apakah project ini sudah memiliki user ini
+            if ($projectUser->email == $user->email) {
+                Flash::error('email already been added collaborator');
+                return redirect(route('projects.index'));
+            } 
+        }
+        
+        $project->users()->attach($user->id);
+        
+        Flash::success('Add colaborator successfully');
+        return redirect(route('projects.index'));
+    }
+
+    function deleteColaborator(Request $request) {
+        $project = Project::findOrFail($request->project_id);
+
+        if (count($project->users) == 1) {
+            Flash::error('Project must have at least one colaborator');
+            return redirect(route('projects.index'));
+        }
+        $user = User::findOrFail($request->user_id);
+        $user->session_project = null;
+        $user->save();
+        $project->users()->detach($request->user_id);
+        Flash::success('Delete colaborator successfully');
+        return redirect(route('projects.index'));
+    }
+    
 
     private function statusPublishEnum($enum) : String {
         

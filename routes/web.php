@@ -42,6 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::post('/changeProject/{id}', [ProjectController::class, 'changeProject'])->name('changeProject');
+    Route::get('/projects/colaborator/{id}', [ProjectController::class, 'colaborator'])->name('colaborator');
+    Route::delete('/projects/colaborator', [ProjectController::class, 'deleteColaborator'])->name('deleteColaborator');
+    Route::post('/projects/colaborator', [ProjectController::class, 'tambahColaborator'])->name('tambahColaborator');
     Route::resource('projects', ProjectController::class);
     Route::resource('methods', App\Http\Controllers\MethodController::class);
     
