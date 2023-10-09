@@ -97,3 +97,10 @@
         </ul>
     </li>
 @endif
+
+<li class="nav-item">
+    <a href="{{ route('contributors.index') }}" class="nav-link {{ Request::is('contributors*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Contributors</p>
+    </a>
+</li>

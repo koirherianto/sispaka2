@@ -14,27 +14,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 
 
-Route::resource('projects', App\Http\Controllers\API\ProjectAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('projects', App\Http\Controllers\API\ProjectAPIController::class)
+//     ->except(['create', 'edit']);
 
-Route::resource('methods', App\Http\Controllers\API\MethodAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('methods', App\Http\Controllers\API\MethodAPIController::class)
+//     ->except(['create', 'edit']);
 
-Route::resource('backward-chainings', App\Http\Controllers\API\BackwardChainingAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('backward-chainings', App\Http\Controllers\API\BackwardChainingAPIController::class)
+//     ->except(['create', 'edit']);
 
-Route::resource('bc-facts', App\Http\Controllers\API\BcFactAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('bc-facts', App\Http\Controllers\API\BcFactAPIController::class)
+//     ->except(['create', 'edit']);
 
-Route::resource('bc-results', App\Http\Controllers\API\BcResultAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('bc-results', App\Http\Controllers\API\BcResultAPIController::class)
+//     ->except(['create', 'edit']);
 
-Route::resource('bc-questions', App\Http\Controllers\API\BcQuestionAPIController::class)
-    ->except(['create', 'edit']);
+// Route::resource('bc-questions', App\Http\Controllers\API\BcQuestionAPIController::class)
+//     ->except(['create', 'edit']);
+
+// Route::resource('contributors', App\Http\Controllers\API\ContributorAPIController::class)
+//     ->except(['create', 'edit']);

@@ -79,7 +79,7 @@
                                     {!! Form::close() !!}
                                     <a href="{{ route('colaborator', ['id' => $project->id]) }}"
                                         class="btn btn-primary btn-sm ml-1">
-                                        Colaborator
+                                        Colaboration
                                     </a>
                                 </div>
                             </div>
