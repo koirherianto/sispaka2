@@ -13,7 +13,7 @@ class ContributorRepository extends BaseRepository
         'name',
         'contribution',
         'email',
-        'contact'
+        'link'
     ];
 
     public function getFieldsSearchable(): array

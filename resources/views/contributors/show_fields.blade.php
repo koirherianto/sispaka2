@@ -28,9 +28,9 @@
     <p>{{ $contributor->email }}</p>
 </div>
 
-<!-- Contact Field -->
+<!-- Link Field -->
 <div class="col-sm-12">
-    {!! Form::label('contact', 'Contact:') !!}
-    <p>{{ $contributor->contact }}</p>
+    {!! Form::label('link', 'Link:') !!}
+    <p>{{ $contributor->link }}</p>
 </div>
 

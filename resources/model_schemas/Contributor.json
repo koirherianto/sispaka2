@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "integer,true,true",
+        "dbType": "integer,false,true",
         "htmlType": "number",
         "validations": "",
         "searchable": false,
@@ -13,7 +13,7 @@
     },
     {
         "name": "project_id",
-        "dbType": "integer,false,true",
+        "dbType": "integer,true,true",
         "htmlType": "number",
         "validations": "required",
         "searchable": true,
@@ -39,7 +39,7 @@
         "name": "name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:45|nullable|string|max:45|nullable|string|max:45",
+        "validations": "required|string|max:45|string|max:45|string|max:45",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -51,7 +51,7 @@
         "name": "contribution",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:45|nullable|string|max:45|nullable|string|max:45",
+        "validations": "required|string|max:45|string|max:45|string|max:45",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -72,10 +72,10 @@
         "inView": true
     },
     {
-        "name": "contact",
+        "name": "link",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:45|nullable|string|max:45|nullable|string|max:45",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,

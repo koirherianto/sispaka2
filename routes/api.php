@@ -41,3 +41,6 @@ use Illuminate\Support\Facades\Route;
 
 // Route::resource('contributors', App\Http\Controllers\API\ContributorAPIController::class)
 //     ->except(['create', 'edit']);
+
+Route::resource('contributors', App\Http\Controllers\API\ContributorAPIController::class)
+    ->except(['create', 'edit']);

@@ -14,23 +14,23 @@ class Contributor extends Model
         'name',
         'contribution',
         'email',
-        'contact'
+        'link'
     ];
 
     protected $casts = [
         'name' => 'string',
         'contribution' => 'string',
         'email' => 'string',
-        'contact' => 'string'
+        'link' => 'string'
     ];
 
     public static array $rules = [
         'project_id' => 'required',
         'user_id' => 'nullable',
-        'name' => 'nullable|string|max:45',
-        'contribution' => 'nullable|string|max:45',
+        'name' => 'required|string|max:45',
+        'contribution' => 'required|string|max:45',
         'email' => 'nullable|string|max:255',
-        'contact' => 'nullable|string|max:45',
+        'link' => 'nullable|string|max:255',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

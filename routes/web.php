@@ -79,4 +79,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
 Route::resource('contributors', App\Http\Controllers\ContributorController::class);

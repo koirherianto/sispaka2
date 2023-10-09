@@ -8,7 +8,7 @@
                 <th>Name</th>
                 <th>Contribution</th>
                 <th>Email</th>
-                <th>Contact</th>
+                <th>Link</th>
                 <th colspan="3">Action</th>
             </tr>
             </thead>
@@ -20,7 +20,7 @@
                     <td>{{ $contributor->name }}</td>
                     <td>{{ $contributor->contribution }}</td>
                     <td>{{ $contributor->email }}</td>
-                    <td>{{ $contributor->contact }}</td>
+                    <td>{{ $contributor->link }}</td>
                     <td  style="width: 120px">
                         {!! Form::open(['route' => ['contributors.destroy', $contributor->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
