@@ -43,8 +43,6 @@
     </li>
 @endif
 
-
-
 <li class="nav-item">
     <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-project-diagram"></i>
@@ -97,17 +95,3 @@
         </ul>
     </li>
 @endif
-
-{{-- <li class="nav-item">
-    <a href="{{ route('contributors.index') }}" class="nav-link {{ Request::is('contributors*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Contributors</p>
-    </a>
-</li> --}}
-
-<li class="nav-item">
-    <a href="{{ route('contributors.index') }}" class="nav-link {{ Request::is('contributors*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Contributors</p>
-    </a>
-</li>

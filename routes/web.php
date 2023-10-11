@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/projects/colaborator', [ProjectController::class, 'deleteColaborator'])->name('deleteColaborator');
     Route::post('/projects/colaborator', [ProjectController::class, 'tambahColaborator'])->name('tambahColaborator');
     Route::resource('projects', ProjectController::class);
+    Route::resource('contributors', App\Http\Controllers\ContributorController::class);
     Route::resource('methods', App\Http\Controllers\MethodController::class);
     
     Route::group(['middleware' => ['ProjectSessionExist']], function () {
@@ -79,5 +80,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-
-Route::resource('contributors', App\Http\Controllers\ContributorController::class);

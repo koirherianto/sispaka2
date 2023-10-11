@@ -28,7 +28,7 @@
 </div>
 
 <div class="col-sm-12">
-    {!! Form::label('created_at', 'Diperbarui pada:') !!}
+    {!! Form::label('updated_at', 'Diperbarui pada:') !!}
     <p>{{ $bcQuestion->updated_at->format('d/m/Y H:i') }}</p>
 </div>
 

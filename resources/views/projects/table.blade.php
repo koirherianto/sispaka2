@@ -56,7 +56,7 @@
                                         class="btn btn-warning btn-sm ml-1">
                                         Setting
                                     </a>
-                                    <a href="{{ route('projects.edit', [$project->id]) }}"
+                                    <a href="{{ route('contributors.index', ['slug' => $project->slug]) }}"
                                         class="btn btn-info btn-sm ml-1">
                                         Contributor
                                     </a>

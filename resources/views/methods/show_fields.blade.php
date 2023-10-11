@@ -16,7 +16,7 @@
 </div>
 
 <div class="col-sm-12">
-    {!! Form::label('created_at', 'Diperbarui pada:') !!}
+    {!! Form::label('updated_at', 'Diperbarui pada:') !!}
     <p>{{ $method->updated_at->format('d/m/Y | h:m') }}</p>
 </div>
 

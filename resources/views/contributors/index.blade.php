@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Contributors</h1>
+                    <h1>{{ $project->title ?? '' }} Contributors</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('contributors.create') }}">
+                       href="{{ route('contributors.create', ['slug' => $project->slug]) }}">
                         Add New
                     </a>
                 </div>
