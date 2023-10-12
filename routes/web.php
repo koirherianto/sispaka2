@@ -28,6 +28,7 @@ Route::get('/inner-page', function () {
 Route::get('/portfolio-details', function () {
     return view('landing.portfolio-details');
 });
+
 Route::get('/expert-system/{slug}', [LandingController::class, 'blog'])->name('expert-system.blog');
 Route::post('/expert-system/{slug}/backward-chaining', [LandingController::class, 'backwardChaining'])->name('expert-system.backward-chaining');
 
@@ -35,11 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     //middle ware role untuk admin
-    Route::group(['middleware' => ['role:admin']], function () {
+    Route::group(['middleware' => ['role:super-admin']], function () {
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         Route::resource('users', App\Http\Controllers\UserController::class);
         Route::resource('roles', App\Http\Controllers\RoleController::class);
-    });
+    }); 
 
     Route::post('/changeProject/{id}', [ProjectController::class, 'changeProject'])->name('changeProject');
     Route::get('/projects/colaborator/{id}', [ProjectController::class, 'colaborator'])->name('colaborator');
