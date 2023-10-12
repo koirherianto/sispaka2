@@ -69,8 +69,8 @@
                                 <div class="btn-wrap mt-2">
                                     <strong>
                                         <a href="/projects/{{ $project->id }}" class="btn-buy btn-secondary">Created By
-                                            @foreach ($project->users as $user)
-                                                {{ $user->name }}{{ !$loop->last ? ', ' : '' }}
+                                            @foreach ($project->contributors as $contributor)
+                                                {{ $contributor->name }} {{ !$loop->last ? ', ' : '' }}
                                             @endforeach
                                         </a>
                                     </strong>

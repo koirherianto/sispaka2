@@ -64,20 +64,51 @@
 
     <div class="form-group col-sm-6">
         {!! Form::label('image_description', 'Image Description:') !!}
-        {!! Form::text('image_description', isset($project) && $project->hasMedia('image_project') && count($project->getMedia('image_project')) > 0 ? $project->getMedia('image_project')[0]->getCustomProperty('description') : null, [
-            'class' => 'form-control',
-            'maxlength' => 125,
-        ]) !!}
+        {!! Form::text(
+            'image_description',
+            isset($project) && $project->hasMedia('image_project') && count($project->getMedia('image_project')) > 0
+                ? $project->getMedia('image_project')[0]->getCustomProperty('description')
+                : null,
+            [
+                'class' => 'form-control',
+                'maxlength' => 125,
+            ],
+        ) !!}
     </div>
 
     @if ($isEditPage && $project->hasMedia('image_project'))
-        <div class="form-group col-sm-12 col-lg-12">
+        <div class="form-group col-sm-12">
             <label>Current Image:</label>
             <div class="">
-                <img src="{{ $project->getMedia('image_project')[0]->getUrl() }}" alt="Current Image" class="img-thumbnail"  style="max-width: 300px; max-height: 300px;">
+                <img src="{{ $project->getMedia('image_project')[0]->getUrl() }}" alt="Current Image"
+                    class="img-thumbnail" style="max-width: 300px; max-height: 300px;">
             </div>
         </div>
     @endif
+
+    <div class="form-group col-sm-6">
+        {!! Form::label('jurnal_project', 'Jurnal Research :') !!}
+        {!! Form::file('jurnal_project', ['class' => 'form-control']) !!}
+    </div>
+
+    @if ($isEditPage && $project->hasMedia('jurnal_project'))
+        <div class="form-group col-sm-6">
+            <label>Current Jurnal Project:</label>
+            <div class="">
+                @if (pathinfo($project->getMedia('jurnal_project')[0]->file_name, PATHINFO_EXTENSION) === 'pdf')
+                    <a href="{{ $project->getMedia('jurnal_project')[0]->getUrl() }}" class="btn btn-primary" download>
+                        Download PDF
+                    </a>
+                @else
+                    <img src="{{ $project->getMedia('jurnal_project')[0]->getUrl() }}" alt="Current Image"
+                        class="img-thumbnail" style="max-width: 300px; max-height: 300px;">
+                @endif
+            </div>
+        </div>
+    @endif
+
+
+
 @endif
 
 @if (!$isEditPage)

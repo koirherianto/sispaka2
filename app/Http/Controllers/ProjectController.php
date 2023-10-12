@@ -158,6 +158,8 @@ class ProjectController extends AppBaseController
     public function update($id, UpdateProjectRequest $request)
     {
         $project = $this->projectRepository->find($id);
+
+        // return $project->getMedia('jurnal_project');
         if (empty($project)) {
             Flash::error('Project not found');
             return redirect(route('projects.index'));
@@ -199,6 +201,17 @@ class ProjectController extends AppBaseController
             }
         }
 
+        // Validasi file Jurnal Project (PDF)
+        if ($request->hasFile('jurnal_project')) {
+            $jurnalFile = $request->file('jurnal_project');
+            $jurnalFileExtension = $jurnalFile->getClientOriginalExtension();
+
+            if ($jurnalFileExtension !== 'pdf') {
+                Flash::error('Jurnal Project must be in PDF format');
+                return redirect(route('projects.edit', $id));
+            }
+        }
+
         DB::transaction(function () use ($input, $id, $request) {
             $project = $this->projectRepository->update($input, $id);
             $project->users()->sync($input['user_id']);
@@ -222,6 +235,13 @@ class ProjectController extends AppBaseController
                 $media->setCustomProperty('description', $input['image_description']);
                 $media->save();
             }
+
+            if ($request->hasFile('jurnal_project')) {
+                $project->clearMediaCollection('jurnal_project');
+                $file = $request->file('jurnal_project');
+                $project->addMedia($file)->toMediaCollection('jurnal_project');
+            }
+
         }, 3);
 
         if (!$project->getFirstMedia('image_project')) {
@@ -284,6 +304,11 @@ class ProjectController extends AppBaseController
                     $user->save();
                 }
             });
+
+            // hapus contributors
+           foreach ($project->contributors as $contributor) {
+                $contributor->delete();
+           }
         
             // Auth::user()->session_project = null;
             $this->projectRepository->delete($id);
